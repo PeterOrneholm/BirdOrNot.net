@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
-using Orneholm.BirdOrNot.Models;
-using Orneholm.BirdOrNot.Services;
+using Orneholm.BirdOrNot.Web.Models;
+using Orneholm.BirdOrNot.Web.Services;
 
-namespace Orneholm.BirdOrNot.Controllers
+namespace Orneholm.BirdOrNot.Web.Controllers
 {
     public class HomeController : Controller
     {

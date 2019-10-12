@@ -1,13 +1,12 @@
-using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Orneholm.BirdOrNot.Models;
-using Orneholm.BirdOrNot.Services;
+using Orneholm.BirdOrNot.Web.Models;
+using Orneholm.BirdOrNot.Web.Services;
 
-namespace Orneholm.BirdOrNot
+namespace Orneholm.BirdOrNot.Web
 {
     public class Startup
     {

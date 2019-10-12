@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Orneholm.BirdOrNot.Models;
+using Orneholm.BirdOrNot.Web.Models;
 
-namespace Orneholm.BirdOrNot.Services
+namespace Orneholm.BirdOrNot.Web.Services
 {
     public interface IBirdAnalyzer
     {

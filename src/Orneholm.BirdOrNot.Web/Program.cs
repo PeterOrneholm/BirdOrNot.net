@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Orneholm.BirdOrNot
+namespace Orneholm.BirdOrNot.Web
 {
     public class Program
     {

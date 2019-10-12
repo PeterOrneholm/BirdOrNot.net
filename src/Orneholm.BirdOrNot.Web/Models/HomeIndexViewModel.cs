@@ -1,4 +1,4 @@
-﻿namespace Orneholm.BirdOrNot.Models
+﻿namespace Orneholm.BirdOrNot.Web.Models
 {
     public class HomeIndexViewModel
     {

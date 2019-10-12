@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Orneholm.BirdOrNot.Models
+namespace Orneholm.BirdOrNot.Web.Models
 {
     public class BirdAnalysisResult
     {

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Microsoft.Extensions.Options;
-using Orneholm.BirdOrNot.Models;
+using Orneholm.BirdOrNot.Web.Models;
 
-namespace Orneholm.BirdOrNot.Services
+namespace Orneholm.BirdOrNot.Web.Services
 {
     public class BirdAnalyzer : IDisposable, IBirdAnalyzer
     {
