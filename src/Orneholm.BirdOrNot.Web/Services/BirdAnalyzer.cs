@@ -9,32 +9,18 @@ using Orneholm.BirdOrNot.Web.Models;
 
 namespace Orneholm.BirdOrNot.Web.Services
 {
-    public class BirdAnalyzer : IDisposable, IBirdAnalyzer
+    public class BirdAnalyzer : IBirdAnalyzer
     {
-        private readonly ComputerVisionClient _computerVisionClient;
-        private static readonly List<VisualFeatureTypes> VisualFeatures = new List<VisualFeatureTypes>
+        private readonly IBirdComputerVision _birdComputerVision;
+
+        public BirdAnalyzer(IBirdComputerVision birdComputerVision)
         {
-            // 13.106 SEK / 1000 transactions
-            VisualFeatureTypes.Adult,
-            VisualFeatureTypes.Objects,
-
-            // 21.843 SEK / 1000 transactions
-            VisualFeatureTypes.Description
-        };
-
-        //Total: 0,048055 SEK / image
-
-        public BirdAnalyzer(IOptions<BirdAnalysisOptions> birdAnalysisOptions)
-        {
-            _computerVisionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(birdAnalysisOptions.Value.AzureComputerVisionSubscriptionKey))
-            {
-                Endpoint = birdAnalysisOptions.Value.AzureComputerVisionEndpoint
-            };
+            _birdComputerVision = birdComputerVision;
         }
 
         public async Task<BirdAnalysisResult> AnalyzeImageFromUrlAsync(string url)
         {
-            var analyzedImage = await _computerVisionClient.AnalyzeImageAsync(url, VisualFeatures);
+            var analyzedImage = await _birdComputerVision.AnalyzeImageFromUrlAsync(url);
 
             if (IsInappropriateContent(analyzedImage))
             {
@@ -109,11 +95,6 @@ namespace Orneholm.BirdOrNot.Web.Services
             }
 
             return objectHierarchy;
-        }
-
-        public void Dispose()
-        {
-            _computerVisionClient?.Dispose();
         }
     }
 }
