@@ -1,9 +1,9 @@
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Orneholm.BirdOrNot.Controllers;
 using Orneholm.BirdOrNot.Models;
 using Orneholm.BirdOrNot.Services;
 
@@ -21,10 +21,12 @@ namespace Orneholm.BirdOrNot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHealthChecks();
             services.Configure<BirdAnalysisOptions>(Configuration);
             services.Configure<GoogleAnalyticsOptions>(Configuration);
             services.AddTransient<IBirdAnalyzer, BirdAnalyzer>();
             services.AddApplicationInsightsTelemetry();
+            services.AddApplicationInsightsTelemetryProcessor<ExcludeHealthDependencyFilter>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,6 +48,7 @@ namespace Orneholm.BirdOrNot
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
