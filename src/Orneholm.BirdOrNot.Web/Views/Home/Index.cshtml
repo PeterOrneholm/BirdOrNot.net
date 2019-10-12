@@ -190,8 +190,9 @@
 
             function feedback(agree) {
                 if (window.appInsights) {
-                    window.appInsights.trackEvent("BirdFeedback", {
+                    window.appInsights.trackEvent("BON_ImageFeedback", {
                         "BON_ImageUrl": imageUrl,
+                        "BON_IsBird": "@(Model.HasResult && Model.Result.IsBird ? "true" : "false")",
                         "BON_Feedback_Agree": agree
                     });
                 }
