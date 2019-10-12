@@ -28,7 +28,7 @@ namespace Orneholm.BirdOrNot.Web
         private bool OKtoSend(ITelemetry item)
         {
             var request = _httpContextAccessor?.HttpContext?.Request;
-            if (request?.Path.Value.StartsWith("/health") ?? false)
+            if (request?.Path.Value.Equals("/health") ?? false)
             {
                 return false;
             }

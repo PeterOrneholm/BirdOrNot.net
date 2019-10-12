@@ -24,7 +24,7 @@ namespace Orneholm.BirdOrNot.Web
             services.Configure<BirdAnalysisOptions>(Configuration);
             services.Configure<GoogleAnalyticsOptions>(Configuration);
             services.AddTransient<IBirdAnalyzer, BirdAnalyzer>();
-            services.AddApplicationInsightsTelemetry();
+            services.AddApplicationInsightsTelemetry(options => { options.DeveloperMode = false; });
             services.AddApplicationInsightsTelemetryProcessor<ExcludeHealthDependencyFilter>();
         }
 
