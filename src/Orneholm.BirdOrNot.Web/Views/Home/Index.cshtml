@@ -1,4 +1,5 @@
-﻿@model Orneholm.BirdOrNot.Web.Models.HomeIndexViewModel
+﻿@using Orneholm.BirdOrNot.Web
+@model Orneholm.BirdOrNot.Web.Models.HomeIndexViewModel
 
 <div class="bon-page-wrapper @(Model.HasResult ? "bon-result-available" : "bon-result-unavailable")">
     <header class="bon-header">
@@ -55,8 +56,23 @@
 
                 <div class="row bon-result-cards">
                     <div class="col-lg-5 bon-result-card-image">
-                        <div class="card p-1">
+                        <div class="card p-1 bon-result-card-image-wrapper">
                             <img src="@Model.ImageUrl" class="card-img-top" alt="@result.Metadata.ImageDescription">
+                            @{
+                                var animalIndex = 0;
+                            }
+                            @foreach (var animal in Model.Result.Animals)
+                            {
+                                animalIndex++;
+                                var rectangle = animal.Rectangle;
+
+                                <div class="bon-result-image-rectangle"
+                                     id="bon-result-image-rectangle-@animalIndex"
+                                     title="@animal.Spiecies (@($"{animal.IsBirdConfidence:P1}"))"
+                                     style="left: @rectangle.xPercentage.ToCssPercentageString(); top: @rectangle.yPercentage.ToCssPercentageString(); width: @rectangle.wPercentage.ToCssPercentageString(); height: @rectangle.hPercentage.ToCssPercentageString();">
+                                    <span>@animal.Spiecies</span>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="col-lg-7 bon-result-card-text">
@@ -112,7 +128,7 @@
                                     @for (var i = 0; i < result.Animals.Count; i++)
                                     {
                                         var animal = result.Animals[i];
-                                        <tr>
+                                        <tr onmouseover="bonHighlightAnimal(true, @(i + 1));" onmouseout="bonHighlightAnimal(false, @(i + 1));">
                                             <th>@(i + 1)</th>
 
                                             <td>@(animal.IsBird ? "Yes" : "No")</td>
@@ -203,6 +219,23 @@
 }
 
 @section Scripts {
+    <script>
+        (function() {
+            window.bonHighlightAnimal = function(show, index) {
+                var id = "bon-result-image-rectangle-" + index;
+                var element = document.getElementById("#" + id);
+                var cssClass = "bon-result-image-rectangle-selected";
+
+                console.log(id);
+
+                if (show) {
+                    element.classList.add(cssClass);
+                } else {
+                    element.classList.remove(cssClass);
+                }
+            };
+        }());
+    </script>
     @if (Model.HasResult)
     {
         <script>

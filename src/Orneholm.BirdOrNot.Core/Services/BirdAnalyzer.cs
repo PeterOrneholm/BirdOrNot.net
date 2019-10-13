@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
@@ -42,17 +43,40 @@ namespace Orneholm.BirdOrNot.Core.Services
             var birds = GetBirds(analyzedImage).ToList();
             var imageDescription = MakeSentence(analyzedImage.Description?.Captions?.FirstOrDefault()?.Text);
 
+            var birdAnalysisMetadata = new BirdAnalysisMetadata
+            {
+                ImageDescription = imageDescription,
+                ImageTags = analyzedImage.Description?.Tags.ToList(),
+
+                ImageWidth = analyzedImage.Metadata.Width,
+                ImageHeight = analyzedImage.Metadata.Height,
+
+                ImageFormat = analyzedImage.Metadata.Format
+            };
+
+            UpdateRectangles(birds, birdAnalysisMetadata);
+
             return new BirdAnalysisResult
             {
                 IsBird = birds.Any(x => x.IsBird),
                 IsBirdConfidence = birds.Where(x => x.IsBird).Max(x => x.IsBirdConfidence),
                 Animals = birds,
-                Metadata = new BirdAnalysisMetadata
-                {
-                    ImageDescription = imageDescription,
-                    ImageTags = analyzedImage.Description?.Tags.ToList()
-                }
+                Metadata = birdAnalysisMetadata
             };
+        }
+
+        private static void UpdateRectangles(List<BirdAnalysisAnimal> birds, BirdAnalysisMetadata birdAnalysisMetadata)
+        {
+            foreach (var bird in birds)
+            {
+                var rectangle = bird.Rectangle;
+
+                rectangle.xPercentage = (double)rectangle.x / birdAnalysisMetadata.ImageWidth * 100;
+                rectangle.yPercentage = (double)rectangle.y / birdAnalysisMetadata.ImageHeight * 100;
+
+                rectangle.wPercentage = (double)rectangle.w / birdAnalysisMetadata.ImageWidth * 100;
+                rectangle.hPercentage = (double)rectangle.h / birdAnalysisMetadata.ImageHeight * 100;
+            }
         }
 
         private static string Capitalize(string value)

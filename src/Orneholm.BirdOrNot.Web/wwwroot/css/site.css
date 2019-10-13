@@ -139,6 +139,35 @@ html, body {
     height: 73px;
 }
 
+.bon-result-card-image-wrapper {
+    position: relative;
+}
+
+.bon-result-image-rectangle {
+    border: 2px solid #f85555;
+    position: absolute;
+}
+
+    .bon-result-image-rectangle span {
+        background-color: #f85555;
+        padding: 3px 7px;
+        color: #fafafa;
+        position: absolute;
+        bottom: -28px;
+        right: 0;
+        display: block;
+        text-transform: uppercase;
+    }
+
+    .bon-result-image-rectangle:hover, .bon-result-image-rectangle-selected {
+        border: 2px solid #fafafa;
+    }
+
+        .bon-result-image-rectangle:hover span, .bon-result-image-rectangle-selected span {
+            background-color: #fafafa;
+            color: #000;
+        }
+
 .bon-result-feedback {
     color: #fafafa;
     margin-top: 30px;
