@@ -49,7 +49,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                     {
                         { "BON_ImageUrl", imageUrl },
                         { "BON_IsBird", result.IsBird.ToString() },
-                        { "BON_BirdCount", result.Birds.Count.ToString() },
+                        { "BON_BirdCount", result.Animals.Count.ToString() },
                         { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
                         { "BON_ImageDescription", result.Metadata.ImageDescription },
                     });
@@ -90,10 +90,10 @@ namespace Orneholm.BirdOrNot.Web.Controllers
             var result = model.Result;
             if (result.IsBird)
             {
-                var birdSpiecies = result.Birds.FirstOrDefault(x => x.BirdSpiecies != null);
+                var birdSpiecies = result.Animals.FirstOrDefault(x => x.Spiecies != null);
                 if (birdSpiecies != null)
                 {
-                    return "It's a " + birdSpiecies.BirdSpiecies + "!";
+                    return "It's a " + birdSpiecies.Spiecies + "!";
                 }
 
                 return "It's a bird!";

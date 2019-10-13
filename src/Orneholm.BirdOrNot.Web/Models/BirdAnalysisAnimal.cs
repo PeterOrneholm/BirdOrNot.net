@@ -1,10 +1,12 @@
 ﻿namespace Orneholm.BirdOrNot.Web.Models
 {
-    public class BirdAnalysisBird
+    public class BirdAnalysisAnimal
     {
-        public string BirdSpiecies { get; set; }
-        public double? IsBirdSpieciesConfidence { get; set; }
+        public string Spiecies { get; set; }
+        public double? SpieciesConfidence { get; set; }
+        public bool IsBird { get; set; }
         public double? IsBirdConfidence { get; set; }
+        public bool IsAnimal { get; set; }
         public double? IsAnimalConfidence { get; set; }
 
         public BoundingRect Rectangle { get; set; }

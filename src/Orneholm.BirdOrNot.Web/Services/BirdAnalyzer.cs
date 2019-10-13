@@ -11,6 +11,9 @@ namespace Orneholm.BirdOrNot.Web.Services
 {
     public class BirdAnalyzer : IBirdAnalyzer
     {
+        private const string AnimalObjectKey = "animal";
+        private const string BirdObjectKey = "bird";
+
         private readonly IBirdComputerVision _birdComputerVision;
 
         public BirdAnalyzer(IBirdComputerVision birdComputerVision)
@@ -40,35 +43,64 @@ namespace Orneholm.BirdOrNot.Web.Services
         private static BirdAnalysisResult GetBirdAnalysisResult(ImageAnalysis analyzedImage)
         {
             var birds = GetBirds(analyzedImage).ToList();
+            var imageDescription = MakeSentence(analyzedImage.Description?.Captions?.FirstOrDefault()?.Text);
 
             return new BirdAnalysisResult
             {
-                IsBird = birds.Any(),
-                IsBirdConfidence = birds.Max(x => x.IsBirdConfidence),
-                Birds = birds,
+                IsBird = birds.Any(x => x.IsBird),
+                IsBirdConfidence = birds.Where(x => x.IsBird).Max(x => x.IsBirdConfidence),
+                Animals = birds,
                 Metadata = new BirdAnalysisMetadata
                 {
-                    ImageDescription = analyzedImage.Description?.Captions?.FirstOrDefault()?.Text,
+                    ImageDescription = imageDescription,
                     ImageTags = analyzedImage.Description?.Tags.ToList()
                 }
             };
         }
 
-        private static IEnumerable<BirdAnalysisBird> GetBirds(ImageAnalysis analyzedImage)
+        private static string Capitalize(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return char.ToUpper(value[0]) + value.Substring(1);
+        }
+
+        private static string MakeSentence(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return Capitalize(value) + ".";
+        }
+
+        private static IEnumerable<BirdAnalysisAnimal> GetBirds(ImageAnalysis analyzedImage)
         {
             return analyzedImage.Objects.ToDictionary(x => x, GetObjectHierarchy)
-                .Where(x => x.Value.ContainsKey("bird"))
+                .Where(x => x.Value.ContainsKey(AnimalObjectKey))
                 .Select(x =>
                 {
                     var first = x.Value.FirstOrDefault();
-                    var firstIsBird = first.Key == "bird";
+                    var hasSpiecies = x.Value.Count >= 3;
 
-                    return new BirdAnalysisBird
+                    var isAnimal = x.Value.ContainsKey(AnimalObjectKey);
+                    var isBird = x.Value.ContainsKey(BirdObjectKey);
+
+                    return new BirdAnalysisAnimal
                     {
-                        BirdSpiecies = !firstIsBird ? first.Key : null,
-                        IsBirdSpieciesConfidence = !firstIsBird ? first.Value : (double?)null,
-                        IsAnimalConfidence = x.Value["animal"],
-                        IsBirdConfidence = x.Value["bird"],
+                        Spiecies = hasSpiecies ? Capitalize(first.Key) : null,
+                        SpieciesConfidence = hasSpiecies ? first.Value : (double?)null,
+
+                        IsAnimal = isAnimal,
+                        IsAnimalConfidence = isAnimal ? x.Value[AnimalObjectKey] : (double?)null,
+
+                        IsBird = isBird,
+                        IsBirdConfidence = isBird ? x.Value[BirdObjectKey] : (double?)null,
+
                         Rectangle = new Models.BoundingRect
                         {
                             x = x.Key.Rectangle.X,

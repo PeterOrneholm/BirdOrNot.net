@@ -7,7 +7,7 @@ namespace Orneholm.BirdOrNot.Web.Models
         public bool IsBird { get; set; }
         public double? IsBirdConfidence { get; set; }
 
-        public List<BirdAnalysisBird> Birds { get; set; }
+        public List<BirdAnalysisAnimal> Animals { get; set; }
 
         public BirdAnalysisMetadata Metadata { get; set; }
     }
