@@ -1,102 +1,115 @@
 ﻿@model Orneholm.BirdOrNot.Web.Models.HomeIndexViewModel
-<header>
-    <a href="/" class="display-4"><i class="fad fa-crow"></i> BirdOrNot.net</a>
 
-    <p class="pl-4">Is it a bird or not? Find out using AI!</p>
-</header>
+<div class="bon-page-wrapper @(Model.HasResult ? "bon-result-available" : "bon-result-unavailable")">
+    <header class="bon-header">
+        <div class="container">
+            <a href="/" class="display-4"><i class="fad fa-crow"></i> BirdOrNot.net</a>
 
-<main>
-    <form class="my-5">
-        <div class="input-group">
-            <input type="text" class="form-control @(Model.IsInvalid ? "is-invalid" : "")" placeholder="URL to picture (JPEG, PNG, GIF, or BMP)" asp-for="ImageUrl" id="image-url" />
-            <div class="input-group-append">
-                <button class="btn btn-outline-light" type="submit">Analyze</button>
-            </div>
+            <p class="pl-4">Is it a bird or not? Find out using AI!</p>
         </div>
+    </header>
 
-        <div class="samples">
-            <span>Samples:</span>
-            @foreach (var sample in Model.Samples)
+    <main class="bon-main">
+        <div class="container-fluid bon-form-wrapper">
+            <form>
+                <div class="input-group">
+                    <input type="url" class="form-control @(Model.IsInvalid ? "is-invalid" : "")" placeholder="URL to picture (JPEG, PNG, GIF, or BMP)" asp-for="ImageUrl" id="bon-image-url" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Analyze</button>
+                    </div>
+                </div>
+
+                <div class="bon-samples">
+                    <span class="bon-samples-title">Samples:</span>
+                    @foreach (var sample in Model.Samples)
+                    {
+                    <a href="?ImageUrl=@Uri.EscapeDataString(sample.Value)">@sample.Key</a>
+                    }
+                </div>
+            </form>
+        </div>
+        <div class="container">
+            @if (Model.HasResult)
             {
-                <a href="?ImageUrl=@Uri.EscapeDataString(sample.Value)">@sample.Key</a>
-            }
-        </div>
-    </form>
+                var result = Model.Result;
 
-    @if (Model.HasResult)
-    {
-        var result = Model.Result;
+            <h1 class="bon-result-title">@Model.IsBirdText</h1>
 
-        <h1 class="text-center">@Model.IsBirdText</h1>
-
-        <div class="text-center">
-            <div class="d-inline-block">
-                <a class="twitter-share-button"
-                   href="https://twitter.com/intent/tweet?text=@(Uri.EscapeDataString(Model.IsBirdText + " #BirdOrNot "))"
-                   data-size="large">
-                    Tweet
-                </a>
-            </div>
-            <div class="d-inline-block">
-                <div class="fb-share-button"
-                     style="top: -5px;"
-                     data-href="@Model.CanonicalUrl"
-                     data-layout="button"
-                     data-size="large">
+            <div class="bon-result-share">
+                <div class="d-inline-block">
+                    <a class="twitter-share-button"
+                       href="https://twitter.com/intent/tweet?text=@(Uri.EscapeDataString(Model.IsBirdText + " #BirdOrNot "))"
+                       data-size="large">
+                        Tweet
+                    </a>
+                </div>
+                <div class="d-inline-block">
+                    <div class="fb-share-button"
+                         style="top: -5px;"
+                         data-href="@Model.CanonicalUrl"
+                         data-layout="button"
+                         data-size="large">
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-2">
-            <div class="col-lg-5 p-1">
-                <div class="card p-1">
-                    <img src="@Model.ImageUrl" class="card-img-top" alt="@result.Metadata.ImageDescription">
+            <div class="row bon-result-cards">
+                <div class="col-lg-5 bon-result-card-image">
+                    <div class="card p-1">
+                        <img src="@Model.ImageUrl" class="card-img-top" alt="@result.Metadata.ImageDescription">
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-7 p-1">
-                <div class="card">
-                    <div class="card-body">
-                        @if (result.IsBird)
-                        {
-                            <p class="card-text">
-                                According to <a href="https://azure.microsoft.com/en-us/services/cognitive-services/computer-vision/" target="_blank">Azure Cognitive Services</a> the image contains a bird (@($"{result.IsBirdConfidence:P1}") confidence).
-                                @if (result.Animals.Count > 1)
+                <div class="col-lg-7 bon-result-card-text">
+                    <div class="card">
+                        <div class="card-body">
+                            @if (result.IsBird)
                                 {
-                                    <text>It even contains multiple birds (@result.Animals.Count to be exact). See a list of them below.</text>
-                                }
+                            <p class="card-text">
+                                According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image contains a bird (@($"{result.IsBirdConfidence:P1}") confidence).
+                                @if (result.Animals.Count > 1)
+                                        {
+                                <text>It even contains multiple birds (@result.Animals.Count to be exact). See a list of them below.</text>
+                                        }
                             </p>
-                        }
-                        else
-                        {
-                            <p class="card-text">According to <a href="https://azure.microsoft.com/en-us/services/cognitive-services/computer-vision/" target="_blank">Azure Cognitive Services</a> the image does not contain a bird...</p>
-                        }
+                                }
+                                else
+                                {
+                            <p>According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image does not contain a bird...</p>
+                                }
 
-                        <dl class="row">
-                            <dt class="col-sm-3">Description</dt>
-                            <dd class="col-sm-9">@result.Metadata.ImageDescription</dd>
+                            <p>
+                                The information below is automatically extracted from the image.
+                            </p>
 
-                            <dt class="col-sm-3">Tags</dt>
-                            <dd class="col-sm-9">
+                            <h2 class="h5">Description</h2>
+                            <p>
+                                @result.Metadata.ImageDescription
+                            </p>
+
+                            <h2 class="h5">Tags</h2>
+                            <p>
                                 @foreach (var tag in result.Metadata.ImageTags)
                                 {
-                                    <span class="badge badge-pill badge-info">@tag</span>
+                                <span class="badge badge-pill badge-info">@tag</span>
                                 }
-                            </dd>
-                        </dl>
-                        
-                        <h5>Animals (confidence)</h5>
+                            </p>
 
+                            <h2 class="h5">Animals</h2>
+                            <p>
+                                These are the animals found in the picture and the confidence level for each info.
+                            </p>
+                        </div>
                         <table class="table table-hover table-striped mb-0">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th colspan="2">Is&nbsp;bird?</th>
-                                <th colspan="2">Spiecies</th>
-                                <th colspan="2">Is&nbsp;animal?</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th colspan="2">Is&nbsp;bird?</th>
+                                    <th colspan="2">Spiecies</th>
+                                    <th colspan="2">Is&nbsp;animal?</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @for (var i = 0; i < result.Animals.Count; i++)
+                                @for (var i = 0; i < result.Animals.Count; i++)
                             {
                                 var animal = result.Animals[i];
                                 <tr>
@@ -115,31 +128,60 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                
-                <div class="text-center mt-2 pt-2 text-white">
-                    <h4>Do you agree?</h4>
 
-                    <div class="btn-group" id="feedback-buttons">
-                        <button type="button" class="btn btn-outline-light" id="feedback-yes">Yes!</button>
-                        <button type="button" class="btn btn-outline-light" id="feedback-no">No...</button>
-                    </div>
-                    <div id="feedback-thanks" style="display: none;">
-                        Thank you for the feedback!
+                    <div class="bon-result-feedback">
+                        <h4>Do you agree?</h4>
+
+                        <div class="btn-group" id="bon-feedback-buttons">
+                            <button type="button" class="btn btn-success" id="bon-feedback-yes">Yes!</button>
+                            <button type="button" class="btn btn-danger" id="bon-feedback-no">No...</button>
+                        </div>
+
+                        <div id="bon-feedback-thanks" style="display: none;">
+                            Thank you for the feedback! The service might eventually learn and get better from this.
+                        </div>
                     </div>
                 </div>
             </div>
+            }
         </div>
-    }
-</main>
+    </main>
+</div>
 
-<footer class="mt-3">
-    <p class="mb-2">
-        This website was inspired by <a href="https://xkcd.com/1425/" target="_blank">this XKCD about tasks</a>, but proving it's not &quot;virtually impossible&quot; anymore by using <a href="https://azure.microsoft.com/en-us/services/cognitive-services/computer-vision/" target="_blank">Azure Cognitive Services</a> to detect birds.
-    </p>
-    <p>
-        Developed by <a href="https://twitter.com/PeterOrneholm" target="_blank">@@PeterOrneholm</a> as a demo for the session <a href="http://bit.ly/peterorneholm-democratizing-ai">Democratizing AI with Azure Cognitive Services</a>.
-    </p>
+<footer class="bon-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>About</h4>
+                <p>
+                    The technical details about this site will be described in a blogpost.
+                </p>
+            </div>
+
+            <div class="col">
+                <h4>Inspiration</h4>
+                <p>
+                    This website was inspired by <a href="https://xkcd.com/1425/" target="_blank">this XKCD about tasks</a>, but proving it's not &quot;virtually impossible&quot; anymore by using <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> to detect birds.
+                </p>
+
+                <div class="bon-footer-xkcd-wrapper">
+                    <a href="https://xkcd.com/1425/" target="_blank">
+                        <img src="https://imgs.xkcd.com/comics/tasks.png" class="img-thumbnail bon-footer-xkcd" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="col">
+                <h4>Author</h4>
+                <p>
+                    Developed by <a href="https://twitter.com/PeterOrneholm" target="_blank">@@PeterOrneholm</a> as a demo for the session <a href="http://bit.ly/peterorneholm-democratizing-ai">Democratizing AI with Azure Cognitive Services</a>.
+                </p>
+            </div>
+        </div>
+        <p class="bon-footer-sitename">
+            BirdOrNot.net
+        </p>
+    </div>
 </footer>
 
 @section HeadMeta {
@@ -148,24 +190,24 @@
 
     @if (string.IsNullOrWhiteSpace(Model.ImageUrl))
     {
-        <meta property="og:image" content="/images/icons/birdornot-512x512.png" />
+    <meta property="og:image" content="/images/icons/birdornot-512x512.png" />
     }
     else
     {
-        <meta property="og:image" content="@Model.ImageUrl" />
+    <meta property="og:image" content="@Model.ImageUrl" />
     }
 }
 
 @section Scripts {
     @if (Model.HasResult)
     {
-        <script>
+    <script>
             (function() {
-                var feedbackButtons = document.querySelector("#feedback-buttons");
-                var feedbackYesButton = document.querySelector("#feedback-yes");
-                var feedbackNoButton = document.querySelector("#feedback-no");
-                var feedbackThanks = document.querySelector("#feedback-thanks");
-                var imageUrl = document.querySelector("#image-url").value;
+                var feedbackButtons = document.querySelector("#bon-feedback-buttons");
+                var feedbackYesButton = document.querySelector("#bon-feedback-yes");
+                var feedbackNoButton = document.querySelector("#bon-feedback-no");
+                var feedbackThanks = document.querySelector("#bon-feedback-thanks");
+                var imageUrl = document.querySelector("#bon-image-url").value;
 
                 if (!feedbackButtons) {
                     return;
@@ -194,7 +236,7 @@
                     feedbackThanks.style.display = "block";
                 }
             }());
-        </script>
+    </script>
     }
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

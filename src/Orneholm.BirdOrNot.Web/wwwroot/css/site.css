@@ -1,5 +1,12 @@
-﻿html {
+﻿/* Basic */
+
+html, body {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #1e1e1e;
 }
 
 @media (min-width: 768px) {
@@ -8,71 +15,154 @@
     }
 }
 
+/* Header */
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
+.bon-header {
+    text-align: center;
+    color: #fafafa;
     background-color: #008bc3;
-    padding: 30px 10px;
 }
 
-header, h1 {
-    text-align: center;
+@media (min-width: 768px) {
+    .bon-header {
+        padding-right: 100px;
+    }
+}
+
+.bon-header a {
     color: #fafafa;
 }
 
-    header a {
-        color: #fafafa;
+    .bon-header a:hover {
+        color: #f0f0f0;
+        text-decoration: none;
     }
 
-        header a:hover {
-            color: #f0f0f0;
-        }
+/* Main */
 
-footer {
-    border-top: 1px solid rgba(250, 250, 250, 0.51);
-    padding-top: 30px;
+.bon-page-wrapper {
+    background-color: #008bc3;
+    padding: 30px 0;
+}
+
+    .bon-page-wrapper.bon-result-unavailable {
+        padding: 25vh 0;
+    }
+
+.bon-main {
+}
+
+/* Footer */
+
+.bon-footer {
     font-size: 0.85em;
-    text-align: center;
+    text-align: left;
     color: #fafafa;
+    margin: 0;
+    padding: 30px 0;
 }
 
-    footer p {
-        margin: 0;
-    }
-
-    footer a {
+    .bon-footer a {
         color: #fafafa;
         text-decoration: underline;
     }
 
-        footer a:hover {
+        .bon-footer a:hover {
             color: #f0f0f0;
         }
 
+.bon-footer-sitename {
+    margin-top: 20px;
+    text-align: center;
+}
 
+.bon-footer-xkcd-wrapper {
+    text-align: center;
+}
+
+.bon-footer-xkcd {
+    max-width: 200px;
+}
+
+/* Form */
+.bon-form-wrapper {
+    background-color: #006b95;
+    margin: 30px 0;
+    padding: 30px 10px;
+}
+
+/* Samples */
+
+.bon-samples {
+    padding-top: 10px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.bon-samples-title {
+    color: #fafafa;
+    font-weight: bold;
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .bon-samples {
+        text-align: center;
+        padding-right: 70px;
+    }
+
+    .bon-samples-title {
+        display: inline;
+    }
+}
+
+.bon-samples a {
+    margin-left: 15px;
+    color: #fafafa;
+    text-decoration: underline;
+}
+
+    .bon-samples a:hover {
+        color: #f0f0f0;
+    }
+
+/* Result */
+
+.bon-result-title {
+    text-align: center;
+    color: #fafafa;
+}
+
+.bon-result-share {
+    padding: 20px 0;
+    text-align: center;
+    height: 73px;
+}
+
+.bon-result-feedback {
+    color: #fafafa;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.bon-result-cards {
+}
+
+.bon-result-card-image {
+    padding: 10px;
+}
+
+.bon-result-card-text {
+    padding: 10px;
+}
+
+    .bon-result-card-text .card .card-body {
+        padding-bottom: 0;
+    }
+
+/* Misc */
 .card, form {
     max-width: 40rem;
     margin-left: auto;
     margin-right: auto;
 }
-
-.samples {
-    text-align: center;
-    padding-top: 10px;
-    padding-right: 70px;
-    font-size: 0.9em;
-}
-
-    .samples a {
-        margin-left: 15px;
-        color: #fafafa;
-        text-decoration: underline;
-    }
-
-        .samples a:hover {
-            color: #f0f0f0;
-        }
