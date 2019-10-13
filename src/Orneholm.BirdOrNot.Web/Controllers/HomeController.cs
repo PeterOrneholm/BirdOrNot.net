@@ -13,12 +13,12 @@ namespace Orneholm.BirdOrNot.Web.Controllers
     {
         private readonly Dictionary<string, string> _samples = new Dictionary<string, string>
         {
-            { "Crow", "https://upload.wikimedia.org/wikipedia/commons/b/b8/Nebelkr%C3%A4he_Corvus_cornix.jpg" },
-            { "Parrot", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Blue-and-Yellow-Macaw.jpg/800px-Blue-and-Yellow-Macaw.jpg" },
+            { "Hummingbird", "https://upload.wikimedia.org/wikipedia/commons/9/9b/Sparkling_Violet-ear.jpg" },
+            { "Penguin", "https://upload.wikimedia.org/wikipedia/commons/0/07/Emperor_Penguin_Manchot_empereur.jpg" },
             { "Falcon", "https://upload.wikimedia.org/wikipedia/commons/9/9a/Falco_peregrinus_good_-_Christopher_Watson.jpg" },
-            { "Peacock", "https://upload.wikimedia.org/wikipedia/commons/d/df/Peacock%2C_East_Park%2C_Hull_-_panoramio.jpg" },
+            { "Crow", "https://upload.wikimedia.org/wikipedia/commons/b/b8/Nebelkr%C3%A4he_Corvus_cornix.jpg" },
             { "Alligator", "https://upload.wikimedia.org/wikipedia/commons/c/ca/Alligatoren_%28Alligator_mississippiensis%29_in_Florida.jpg" },
-            { "Multiple birds", "https://upload.wikimedia.org/wikipedia/commons/b/bf/Bird_Diversity_2013.png" }
+            { "Multiple Owls", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Athene_cunicularia_20110524_02.jpg/2560px-Athene_cunicularia_20110524_02.jpg" }
         };
 
         private readonly IBirdAnalyzer _birdAnalyzer;
@@ -77,7 +77,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                 return "https://birdornot.net/";
             }
 
-            return $"https://birdornot.net?ImageUrl={Uri.EscapeDataString(model.ImageUrl)}";
+            return $"https://birdornot.net/?ImageUrl={Uri.EscapeDataString(model.ImageUrl)}";
         }
 
         private string GetIsBirdText(HomeIndexViewModel model)
@@ -93,13 +93,13 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                 var birdSpiecies = result.Animals.FirstOrDefault(x => x.Spiecies != null);
                 if (birdSpiecies != null)
                 {
-                    return "It's a " + birdSpiecies.Spiecies + "!";
+                    return $"It's a bird ({birdSpiecies.Spiecies})!";
                 }
 
                 return "It's a bird!";
             }
 
-            return "It's not a bird...";
+            return "It's not a bird.";
         }
     }
 }
