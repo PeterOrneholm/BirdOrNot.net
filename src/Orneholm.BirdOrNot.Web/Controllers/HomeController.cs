@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
+using Orneholm.BirdOrNot.Core.Models;
+using Orneholm.BirdOrNot.Core.Services;
 using Orneholm.BirdOrNot.Web.Models;
-using Orneholm.BirdOrNot.Web.Services;
 
 namespace Orneholm.BirdOrNot.Web.Controllers
 {

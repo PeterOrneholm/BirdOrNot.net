@@ -5,9 +5,8 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Orneholm.BirdOrNot.Web.Models;
-using Orneholm.BirdOrNot.Web.Services;
+using Orneholm.BirdOrNot.Core.Services;
 
 namespace Orneholm.BirdOrNot.Web
 {
@@ -29,15 +28,13 @@ namespace Orneholm.BirdOrNot.Web
 
             services.Configure<GoogleAnalyticsOptions>(Configuration);
 
-            services.Configure<BirdAnalysisOptions>(Configuration);
             services.AddTransient<IBirdAnalyzer, BirdAnalyzer>();
             services.AddTransient<BirdComputerVision>();
             services.AddTransient<IComputerVisionClient>(x =>
             {
-                var birdAnalysisOptions = x.GetService<IOptions<BirdAnalysisOptions>>();
-                return new ComputerVisionClient(new ApiKeyServiceClientCredentials(birdAnalysisOptions.Value.AzureComputerVisionSubscriptionKey))
+                return new ComputerVisionClient(new ApiKeyServiceClientCredentials(Configuration["AzureComputerVisionSubscriptionKey"]))
                 {
-                    Endpoint = birdAnalysisOptions.Value.AzureComputerVisionEndpoint
+                    Endpoint = Configuration["AzureComputerVisionEndpoint"]
                 };
             });
             services.AddTransient<IBirdComputerVision>(x => new CachedBirdComputerVision(x.GetService<BirdComputerVision>(), x.GetService<IDistributedCache>()));

@@ -1,4 +1,4 @@
-﻿namespace Orneholm.BirdOrNot.Web.Models
+﻿namespace Orneholm.BirdOrNot.Core.Models
 {
     public class BoundingRect
     {

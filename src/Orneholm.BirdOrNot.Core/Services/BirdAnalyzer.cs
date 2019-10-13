@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using Microsoft.Extensions.Options;
-using Orneholm.BirdOrNot.Web.Models;
+using Orneholm.BirdOrNot.Core.Models;
 
-namespace Orneholm.BirdOrNot.Web.Services
+namespace Orneholm.BirdOrNot.Core.Services
 {
     public class BirdAnalyzer : IBirdAnalyzer
     {

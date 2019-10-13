@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Orneholm.BirdOrNot.Core.Models;
 
 namespace Orneholm.BirdOrNot.Web.Models
 {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 
-namespace Orneholm.BirdOrNot.Web.Services
+namespace Orneholm.BirdOrNot.Core.Services
 {
     public interface IBirdComputerVision
     {

@@ -5,7 +5,7 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
-namespace Orneholm.BirdOrNot.Web.Services
+namespace Orneholm.BirdOrNot.Core.Services
 {
     public class CachedBirdComputerVision : IBirdComputerVision
     {
