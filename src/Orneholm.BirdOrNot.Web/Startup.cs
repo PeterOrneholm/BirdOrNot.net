@@ -40,14 +40,21 @@ namespace Orneholm.BirdOrNot.Web
                     Endpoint = birdAnalysisOptions.Value.AzureComputerVisionEndpoint
                 };
             });
-
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = Configuration["RedisConnectionString"];
-                options.InstanceName = "BirdOrNot";
-            });
-
             services.AddTransient<IBirdComputerVision>(x => new CachedBirdComputerVision(x.GetService<BirdComputerVision>(), x.GetService<IDistributedCache>()));
+
+            var redisConnectionString = Configuration["RedisConnectionString"];
+            if (!string.IsNullOrWhiteSpace(redisConnectionString))
+            {
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = redisConnectionString;
+                    options.InstanceName = "BirdOrNot";
+                });
+            }
+            else
+            {
+                services.AddDistributedMemoryCache();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
