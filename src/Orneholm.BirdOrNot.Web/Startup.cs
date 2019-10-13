@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,15 +31,23 @@ namespace Orneholm.BirdOrNot.Web
 
             services.Configure<BirdAnalysisOptions>(Configuration);
             services.AddTransient<IBirdAnalyzer, BirdAnalyzer>();
-            services.AddTransient<IBirdComputerVision, BirdComputerVision>();
-            services.AddTransient<IComputerVisionClient>(services =>
+            services.AddTransient<BirdComputerVision>();
+            services.AddTransient<IComputerVisionClient>(x =>
             {
-                var birdAnalysisOptions = services.GetService<IOptions<BirdAnalysisOptions>>();
+                var birdAnalysisOptions = x.GetService<IOptions<BirdAnalysisOptions>>();
                 return new ComputerVisionClient(new ApiKeyServiceClientCredentials(birdAnalysisOptions.Value.AzureComputerVisionSubscriptionKey))
                 {
                     Endpoint = birdAnalysisOptions.Value.AzureComputerVisionEndpoint
                 };
             });
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["RedisConnectionString"];
+                options.InstanceName = "BirdOrNot";
+            });
+
+            services.AddTransient<IBirdComputerVision>(x => new CachedBirdComputerVision(x.GetService<BirdComputerVision>(), x.GetService<IDistributedCache>()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

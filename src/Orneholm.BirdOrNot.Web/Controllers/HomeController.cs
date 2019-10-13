@@ -29,8 +29,8 @@ namespace Orneholm.BirdOrNot.Web.Controllers
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
             {
-                try
-                {
+                //try
+                //{
                     var result = await _birdAnalyzer.AnalyzeImageFromUrlAsync(imageUrl);
                     viewModel.Result = result;
                     _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
@@ -41,15 +41,15 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                         { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
                         { "BON_ImageDescription", result.Metadata.ImageDescription },
                     });
-                }
-                catch (Exception ex)
-                {
-                    viewModel.Result = null;
-                    _telemetryClient.TrackException(ex, new Dictionary<string, string>
-                    {
-                        { "BON_ImageUrl", imageUrl }
-                    });
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    viewModel.Result = null;
+                //    _telemetryClient.TrackException(ex, new Dictionary<string, string>
+                //    {
+                //        { "BON_ImageUrl", imageUrl }
+                //    });
+                //}
             }
 
             return View(viewModel);
