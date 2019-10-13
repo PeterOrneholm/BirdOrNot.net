@@ -7,20 +7,18 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>BirdOrNot.net - Is it a bird or not? Find out using AI!</title>
-    <meta name="description" content="Is it a bird or not? Find out using AI!" />
-
     <base href="/" />
 
+    <!-- Info -->
+    @RenderSection("HeadMeta", required: false)
+
+    <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/birdornot-180x180.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/birdornot-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/birdornot-16x16.png" />
     <link rel="shortcut icon" href="/images/icons/favicon.ico" />
 
-    @RenderSection("HeadMeta", required: false)
-
-
+    <!-- Styles -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-zrnmn8R8KkWl12rAZFt4yKjxplaDaT7/EUkKm7AovijfrQItFWR7O/JJn4DAa/gx" crossorigin="anonymous" />
 
@@ -40,19 +38,23 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
+    <!-- Facebook -->
     <div id="fb-root"></div>
     <script>
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
+            js = d.createElement(s);
+            js.id = id;
             js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
 
+    <!-- Body -->
     @RenderBody()
 
+    <!-- Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

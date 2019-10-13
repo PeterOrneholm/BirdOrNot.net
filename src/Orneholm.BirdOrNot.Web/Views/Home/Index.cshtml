@@ -23,7 +23,7 @@
                     <span class="bon-samples-title">Samples:</span>
                     @foreach (var sample in Model.Samples)
                     {
-                    <a href="?ImageUrl=@Uri.EscapeDataString(sample.Value)">@sample.Key</a>
+                        <a href="?ImageUrl=@Uri.EscapeDataString(sample.Value)">@sample.Key</a>
                     }
                 </div>
             </form>
@@ -33,116 +33,116 @@
             {
                 var result = Model.Result;
 
-            <h1 class="bon-result-title">@Model.IsBirdText</h1>
+                <h1 class="bon-result-title">@Model.IsBirdText</h1>
 
-            <div class="bon-result-share">
-                <div class="d-inline-block">
-                    <a class="twitter-share-button"
-                       href="https://twitter.com/intent/tweet?text=@(Uri.EscapeDataString(Model.IsBirdText + " #BirdOrNot "))"
-                       data-size="large">
-                        Tweet
-                    </a>
-                </div>
-                <div class="d-inline-block">
-                    <div class="fb-share-button"
-                         style="top: -5px;"
-                         data-href="@Model.CanonicalUrl"
-                         data-layout="button"
-                         data-size="large">
+                <div class="bon-result-share">
+                    <div class="d-inline-block">
+                        <a class="twitter-share-button"
+                           href="https://twitter.com/intent/tweet?text=@(Uri.EscapeDataString(Model.IsBirdText + " #BirdOrNot "))"
+                           data-size="large">
+                            Tweet
+                        </a>
+                    </div>
+                    <div class="d-inline-block">
+                        <div class="fb-share-button"
+                             style="top: -5px;"
+                             data-href="@Model.CanonicalUrl"
+                             data-layout="button"
+                             data-size="large">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row bon-result-cards">
-                <div class="col-lg-5 bon-result-card-image">
-                    <div class="card p-1">
-                        <img src="@Model.ImageUrl" class="card-img-top" alt="@result.Metadata.ImageDescription">
+                <div class="row bon-result-cards">
+                    <div class="col-lg-5 bon-result-card-image">
+                        <div class="card p-1">
+                            <img src="@Model.ImageUrl" class="card-img-top" alt="@result.Metadata.ImageDescription">
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-7 bon-result-card-text">
-                    <div class="card">
-                        <div class="card-body">
-                            @if (result.IsBird)
+                    <div class="col-lg-7 bon-result-card-text">
+                        <div class="card">
+                            <div class="card-body">
+                                @if (result.IsBird)
                                 {
-                            <p class="card-text">
-                                According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image contains a bird (@($"{result.IsBirdConfidence:P1}") confidence).
-                                @if (result.Animals.Count > 1)
+                                    <p class="card-text">
+                                        According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image contains a bird (@($"{result.IsBirdConfidence:P1}") confidence).
+                                        @if (result.Animals.Count > 1)
                                         {
-                                <text>It even contains multiple birds (@result.Animals.Count to be exact). See a list of them below.</text>
+                                            <text>It even contains multiple birds (@result.Animals.Count to be exact). See a list of them below.</text>
                                         }
-                            </p>
+                                    </p>
                                 }
                                 else
                                 {
-                            <p>According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image does not contain a bird...</p>
+                                    <p>According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image does not contain a bird...</p>
                                 }
 
-                            <p>
-                                The information below is automatically extracted from the image.
-                            </p>
+                                <p>
+                                    The information below is automatically extracted from the image.
+                                </p>
 
-                            <h2 class="h5">Description</h2>
-                            <p>
-                                @result.Metadata.ImageDescription
-                            </p>
+                                <h2 class="h5">Description</h2>
+                                <p>
+                                    @result.Metadata.ImageDescription
+                                </p>
 
-                            <h2 class="h5">Tags</h2>
-                            <p>
-                                @foreach (var tag in result.Metadata.ImageTags)
-                                {
-                                <span class="badge badge-pill badge-info">@tag</span>
-                                }
-                            </p>
+                                <h2 class="h5">Tags</h2>
+                                <p>
+                                    @foreach (var tag in result.Metadata.ImageTags)
+                                    {
+                                        <span class="badge badge-pill badge-info">@tag</span>
+                                    }
+                                </p>
 
-                            <h2 class="h5">Animals</h2>
-                            <p>
-                                These are the animals found in the picture and the confidence level for each info.
-                            </p>
-                        </div>
-                        <table class="table table-hover table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th colspan="2">Is&nbsp;bird?</th>
-                                    <th colspan="2">Spiecies</th>
-                                    <th colspan="2">Is&nbsp;animal?</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (var i = 0; i < result.Animals.Count; i++)
-                            {
-                                var animal = result.Animals[i];
-                                <tr>
-                                    <th>@(i + 1)</th>
+                                <h2 class="h5">Animals</h2>
+                                <p>
+                                    These are the animals found in the picture and the confidence level for each info.
+                                </p>
+                            </div>
+                            <table class="table table-hover table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th colspan="2">Is&nbsp;bird?</th>
+                                        <th colspan="2">Spiecies</th>
+                                        <th colspan="2">Is&nbsp;animal?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (var i = 0; i < result.Animals.Count; i++)
+                                    {
+                                        var animal = result.Animals[i];
+                                        <tr>
+                                            <th>@(i + 1)</th>
 
-                                    <td>@(animal.IsBird ? "Yes" : "No")</td>
-                                    <td>@(animal.IsBird ? $"({animal.IsBirdConfidence:P1})" : "-")</td>
+                                            <td>@(animal.IsBird ? "Yes" : "No")</td>
+                                            <td>@(animal.IsBird ? $"({animal.IsBirdConfidence:P1})" : "-")</td>
 
-                                    <td>@(animal.Spiecies != null ? $"{animal.Spiecies}" : "-")</td>
-                                    <td>@(animal.Spiecies != null ? $"({animal.SpieciesConfidence:P1})" : "")</td>
+                                            <td>@(animal.Spiecies != null ? $"{animal.Spiecies}" : "-")</td>
+                                            <td>@(animal.Spiecies != null ? $"({animal.SpieciesConfidence:P1})" : "")</td>
 
-                                    <td>@(animal.IsAnimal ? "Yes" : "No")</td>
-                                    <td>@(animal.IsAnimal ? $"({animal.IsAnimalConfidence:P1})" : "-")</td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="bon-result-feedback">
-                        <h4>Do you agree?</h4>
-
-                        <div class="btn-group" id="bon-feedback-buttons">
-                            <button type="button" class="btn btn-success" id="bon-feedback-yes">Yes!</button>
-                            <button type="button" class="btn btn-danger" id="bon-feedback-no">No...</button>
+                                            <td>@(animal.IsAnimal ? "Yes" : "No")</td>
+                                            <td>@(animal.IsAnimal ? $"({animal.IsAnimalConfidence:P1})" : "-")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
 
-                        <div id="bon-feedback-thanks" style="display: none;">
-                            Thank you for the feedback! The service might eventually learn and get better from this.
+                        <div class="bon-result-feedback">
+                            <h4>Do you agree?</h4>
+
+                            <div class="btn-group" id="bon-feedback-buttons">
+                                <button type="button" class="btn btn-success" id="bon-feedback-yes">Yes!</button>
+                                <button type="button" class="btn btn-danger" id="bon-feedback-no">No...</button>
+                            </div>
+
+                            <div id="bon-feedback-thanks" style="display: none;">
+                                Thank you for the feedback! The service might eventually learn and get better from this.
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
     </main>
@@ -188,20 +188,26 @@
     <meta property="og:type" content="website" />
     <link rel="canonical" href="@Model.CanonicalUrl" />
 
+
+
     @if (string.IsNullOrWhiteSpace(Model.ImageUrl))
     {
-    <meta property="og:image" content="/images/icons/birdornot-512x512.png" />
+        <title>BirdOrNot.net - Is it a bird or not? Find out using AI!</title>
+        <meta name="description" content="Is it a bird or not? Find out using AI!" />
+        <meta property="og:image" content="/images/icons/birdornot-512x512.png" />
     }
     else
     {
-    <meta property="og:image" content="@Model.ImageUrl" />
+        <title>@Model.IsBirdText - BirdOrNot.net - Is it a bird or not? Find out using AI!</title>
+        <meta name="description" content="@Model.IsBirdText - @Model.Result.Metadata.ImageDescription - Is it a bird or not? Try yourself using AI!" />
+        <meta property="og:image" content="@Model.ImageUrl" />
     }
 }
 
 @section Scripts {
     @if (Model.HasResult)
     {
-    <script>
+        <script>
             (function() {
                 var feedbackButtons = document.querySelector("#bon-feedback-buttons");
                 var feedbackYesButton = document.querySelector("#bon-feedback-yes");
@@ -236,7 +242,7 @@
                     feedbackThanks.style.display = "block";
                 }
             }());
-    </script>
+        </script>
     }
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
