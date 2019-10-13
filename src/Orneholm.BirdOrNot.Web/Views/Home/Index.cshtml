@@ -13,45 +13,26 @@
                 <button class="btn btn-outline-light" type="submit">Analyze</button>
             </div>
         </div>
+
         <div class="samples">
             <span>Samples:</span>
-            <a href="?ImageUrl=@Uri.EscapeDataString("https://upload.wikimedia.org/wikipedia/commons/b/b8/Nebelkr%C3%A4he_Corvus_cornix.jpg")">Crow</a>
-            <a href="?ImageUrl=@Uri.EscapeDataString("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Blue-and-Yellow-Macaw.jpg/800px-Blue-and-Yellow-Macaw.jpg")">Parrot</a>
-            <a href="?ImageUrl=@Uri.EscapeDataString("https://upload.wikimedia.org/wikipedia/commons/9/9a/Falco_peregrinus_good_-_Christopher_Watson.jpg")">Falcon</a>
-            <a href="?ImageUrl=@Uri.EscapeDataString("https://upload.wikimedia.org/wikipedia/commons/d/df/Peacock%2C_East_Park%2C_Hull_-_panoramio.jpg")">Peacock</a>
-            <a href="?ImageUrl=@Uri.EscapeDataString("https://upload.wikimedia.org/wikipedia/commons/c/ca/Alligatoren_%28Alligator_mississippiensis%29_in_Florida.jpg")">Alligator</a>
-            <a href="?ImageUrl=@Uri.EscapeDataString("https://upload.wikimedia.org/wikipedia/commons/b/bf/Bird_Diversity_2013.png")">Multiple birds</a>
+            @foreach (var sample in Model.Samples)
+            {
+                <a href="?ImageUrl=@Uri.EscapeDataString(sample.Value)">@sample.Key</a>
+            }
         </div>
     </form>
 
     @if (Model.HasResult)
     {
         var result = Model.Result;
-        var text = "";
-        if (result.IsBird)
-        {
-            var birdSpiecies = result.Birds.FirstOrDefault(x => x.BirdSpiecies != null);
-            if (birdSpiecies != null)
-            {
-                text = "It is a " + birdSpiecies.BirdSpiecies + "!";
-            }
-            else
-            {
-                text = "It is a bird!";
 
-            }
-        }
-        else
-        {
-            text = "It is not a bird...";
-        }
-
-        <h1 class="text-center">@text</h1>
+        <h1 class="text-center">@Model.IsBirdText</h1>
 
         <div class="text-center">
             <div class="d-inline-block">
                 <a class="twitter-share-button"
-                   href="https://twitter.com/intent/tweet?text=@(Uri.EscapeDataString(text + " #BirdOrNot "))"
+                   href="https://twitter.com/intent/tweet?text=@(Uri.EscapeDataString(Model.IsBirdText + " #BirdOrNot "))"
                    data-size="large">
                     Tweet
                 </a>
@@ -59,7 +40,7 @@
             <div class="d-inline-block">
                 <div class="fb-share-button"
                      style="top: -5px;"
-                     data-href="https://birdornot.net?ImageUrl=@Uri.EscapeDataString(Model.ImageUrl)"
+                     data-href="@Model.CanonicalUrl"
                      data-layout="button"
                      data-size="large">
                 </div>
@@ -155,8 +136,7 @@
 
 <footer class="mt-3">
     <p class="mb-2">
-        This website was inspired by <a href="https://xkcd.com/1425/" target="_blank">this XKCD about tasks</a>,<br />
-        but proving it's not &quot;virtually impossible&quot; anymore.
+        This website was inspired by <a href="https://xkcd.com/1425/" target="_blank">this XKCD about tasks</a>, but proving it's not &quot;virtually impossible&quot; anymore.
     </p>
     <p>
         Using <a href="https://azure.microsoft.com/en-us/services/cognitive-services/computer-vision/" target="_blank">Azure Cognitive Services</a> to detect birds.
@@ -168,53 +148,58 @@
 
 @section HeadMeta {
     <meta property="og:type" content="website" />
+    <link rel="canonical" href="@Model.CanonicalUrl" />
 
     @if (string.IsNullOrWhiteSpace(Model.ImageUrl))
     {
         <meta property="og:image" content="/images/icons/birdornot-512x512.png" />
-        <link rel="canonical" href="https://birdornot.net/" />
     }
     else
     {
         <meta property="og:image" content="@Model.ImageUrl" />
-        <link rel="canonical" href="https://birdornot.net?ImageUrl=@Uri.EscapeDataString(Model.ImageUrl)" />
     }
 }
 
 @section Scripts {
-    <script>
-        (function() {
-            var feedbackButtons = document.querySelector("#feedback-buttons");
-            var feedbackYesButton = document.querySelector("#feedback-yes");
-            var feedbackNoButton = document.querySelector("#feedback-no");
-            var feedbackThanks = document.querySelector("#feedback-thanks");
-            var imageUrl = document.querySelector("#image-url").value;
+    @if (Model.HasResult)
+    {
+        <script>
+            (function() {
+                var feedbackButtons = document.querySelector("#feedback-buttons");
+                var feedbackYesButton = document.querySelector("#feedback-yes");
+                var feedbackNoButton = document.querySelector("#feedback-no");
+                var feedbackThanks = document.querySelector("#feedback-thanks");
+                var imageUrl = document.querySelector("#image-url").value;
 
-            if (!feedbackButtons) {
-                return;
-            }
-
-            feedbackYesButton.addEventListener("click", function() {
-                feedback("true");
-            });
-
-            feedbackNoButton.addEventListener("click", function() {
-                feedback("false");
-            });
-
-            function feedback(agree) {
-                if (window.appInsights) {
-                    window.appInsights.trackEvent("BON_ImageFeedback", {
-                        "BON_ImageUrl": imageUrl,
-                        "BON_IsBird": "@(Model.HasResult && Model.Result.IsBird ? "true" : "false")",
-                        "BON_Feedback_Agree": agree
-                    });
+                if (!feedbackButtons) {
+                    return;
                 }
-                feedbackButtons.style.display = "none";
-                feedbackThanks.style.display = "block";
-            }
-        }());
-    </script>
+
+                feedbackYesButton.addEventListener("click",
+                    function() {
+                        feedback("true");
+                    });
+
+                feedbackNoButton.addEventListener("click",
+                    function() {
+                        feedback("false");
+                    });
+
+                function feedback(agree) {
+                    if (window.appInsights) {
+                        window.appInsights.trackEvent("BON_ImageFeedback",
+                            {
+                                "BON_ImageUrl": imageUrl,
+                                "BON_IsBird": "@(Model.HasResult && Model.Result.IsBird ? "true" : "false")",
+                                "BON_Feedback_Agree": agree
+                            });
+                    }
+                    feedbackButtons.style.display = "none";
+                    feedbackThanks.style.display = "block";
+                }
+            }());
+        </script>
+    }
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 }
