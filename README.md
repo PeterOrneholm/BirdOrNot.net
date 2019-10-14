@@ -85,7 +85,11 @@ There are a few basic costs involved. But the part that could become expensive i
 
 ## Next steps
 
-I would like to add som custom models to detect "Bird like" things, like *Big Yellow Bird*, *Jack Sparrow* etc. I could use [Azure Custom Vision](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/) for this, just give me some time and I'll fix it :)
+Here are a few things I've thought about implementing:
+
+- Custom Vision: I would like to add som custom models to detect "Bird like" things, like *Big Yellow Bird*, *Jack Sparrow* etc. I could use [Azure Custom Vision](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/) for this, just give me some time and I'll fix it :)
+- The XKCD above also mentions the task of detecting if the photo is taken in a national park. I've thought of using [Azure Maps](https://azure.microsoft.com/en-us/services/azure-maps/) to find the POI based on GPS coordinates stored in the picture.
+- Make it a PWA and publish it to Store(s)
 
 ## Interested in even more details?
 

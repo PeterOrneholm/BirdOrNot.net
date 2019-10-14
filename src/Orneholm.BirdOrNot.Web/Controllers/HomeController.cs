@@ -46,26 +46,16 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                 {
                     var result = await _birdAnalyzer.AnalyzeImageFromUrlAsync(imageUrl);
                     viewModel.Result = result;
-                    if (result == null)
+                    _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
                     {
-                        _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
-                        {
-                            { "BON_ImageUrl", imageUrl },
-                            { "BON_IsAdult", "true" }
-                        });
-                    }
-                    else
-                    {
-                        _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
-                        {
-                            { "BON_ImageUrl", imageUrl },
-                            { "BON_IsBird", result.IsBird.ToString() },
-                            { "BON_BirdCount", result.Animals.Count.ToString() },
-                            { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
-                            { "BON_ImageDescription", result.Metadata.ImageDescription },
-                            { "BON_IsSample", _samples.Values.Contains(imageUrl).ToString() }
-                        });
-                    }
+                        { "BON_ImageUrl", imageUrl },
+                        { "BON_IsBird", result.IsBird.ToString() },
+                        { "BON_BirdCount", result.Animals.Count.ToString() },
+                        { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
+                        { "BON_ImageDescription", result.Metadata.ImageDescription },
+                        { "BON_IsSample", _samples.Values.Contains(imageUrl).ToString() },
+                        { "BON_IsInappropriateContent", result.IsInappropriateContent.ToString() }
+                    });
                 }
                 catch (Exception ex)
                 {

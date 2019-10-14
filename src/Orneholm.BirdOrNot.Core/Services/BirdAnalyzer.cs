@@ -22,13 +22,11 @@ namespace Orneholm.BirdOrNot.Core.Services
         public async Task<BirdAnalysisResult> AnalyzeImageFromUrlAsync(string url)
         {
             var analyzedImage = await _birdComputerVision.AnalyzeImageFromUrlAsync(url);
+            var birdAnalysis = GetBirdAnalysisResult(analyzedImage);
 
-            if (IsInappropriateContent(analyzedImage))
-            {
-                return null;
-            }
+            birdAnalysis.IsInappropriateContent = IsInappropriateContent(analyzedImage);
 
-            return GetBirdAnalysisResult(analyzedImage);
+            return birdAnalysis;
         }
 
         private static bool IsInappropriateContent(ImageAnalysis analyzedImage)
@@ -40,7 +38,7 @@ namespace Orneholm.BirdOrNot.Core.Services
 
         private static BirdAnalysisResult GetBirdAnalysisResult(ImageAnalysis analyzedImage)
         {
-            var birds = GetBirds(analyzedImage).ToList();
+            var birds = GetAnimals(analyzedImage).ToList();
             var imageDescription = MakeSentence(analyzedImage.Description?.Captions?.FirstOrDefault()?.Text);
 
             var birdAnalysisMetadata = new BirdAnalysisMetadata
@@ -99,7 +97,7 @@ namespace Orneholm.BirdOrNot.Core.Services
             return Capitalize(value) + ".";
         }
 
-        private static IEnumerable<BirdAnalysisAnimal> GetBirds(ImageAnalysis analyzedImage)
+        private static IEnumerable<BirdAnalysisAnimal> GetAnimals(ImageAnalysis analyzedImage)
         {
             return analyzedImage.Objects.ToDictionary(x => x, GetObjectHierarchy)
                 .Where(x => x.Value.ContainsKey(AnimalObjectKey))
