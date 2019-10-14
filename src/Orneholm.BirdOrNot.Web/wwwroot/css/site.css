@@ -91,8 +91,19 @@ html, body {
     padding: 30px 10px;
 }
 
-/* Samples */
+.bon-form-submit-button {
+    transition: width 1s;
+}
 
+.bon-form-submit-text {
+    display: inline;
+}
+
+.bon-form-submit-spinner {
+    display: none;
+}
+
+/* Samples */
 .bon-samples {
     padding-top: 10px;
     font-size: 0.9em;
@@ -102,17 +113,13 @@ html, body {
 .bon-samples-title {
     color: #fafafa;
     font-weight: bold;
-    display: block;
+    display: inline;
 }
 
 @media (min-width: 768px) {
     .bon-samples {
         text-align: center;
         padding-right: 70px;
-    }
-
-    .bon-samples-title {
-        display: inline;
     }
 }
 

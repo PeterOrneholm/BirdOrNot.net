@@ -12,11 +12,14 @@
 
     <main class="bon-main">
         <div class="container-fluid bon-form-wrapper">
-            <form>
+            <form id="bon-form">
                 <div class="input-group">
                     <input type="url" class="form-control @(Model.IsInvalid ? "is-invalid" : "")" placeholder="URL to picture (JPEG, PNG, GIF, or BMP)" asp-for="ImageUrl" id="bon-image-url" />
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Analyze</button>
+                        <button class="btn btn-primary bon-form-submit-button" type="submit">
+                            <span class="bon-form-submit-text">Analyze</span>
+                            <i class="fas fa-cog fa-spin bon-form-submit-spinner"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -69,6 +72,7 @@
                                 <div class="bon-result-image-rectangle"
                                      id="bon-result-image-rectangle-@animalIndex"
                                      title="@animal.Spiecies (@($"{animal.IsBirdConfidence:P1}"))"
+                                     onmouseover="bon.highlightAnimalRow(true, @(animalIndex));" onmouseout="bon.highlightAnimalRow(false, @(animalIndex));"
                                      style="left: @rectangle.xPercentage.ToCssPercentageString(); top: @rectangle.yPercentage.ToCssPercentageString(); width: @rectangle.wPercentage.ToCssPercentageString(); height: @rectangle.hPercentage.ToCssPercentageString();">
                                     <span>@animal.Spiecies</span>
                                 </div>
@@ -119,26 +123,34 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th colspan="2">Is&nbsp;bird?</th>
-                                        <th colspan="2">Spiecies</th>
-                                        <th colspan="2">Is&nbsp;animal?</th>
+                                        <th>Is&nbsp;bird?</th>
+                                        <th>Spiecies</th>
+                                        <th>Is&nbsp;animal?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @for (var i = 0; i < result.Animals.Count; i++)
                                     {
                                         var animal = result.Animals[i];
-                                        <tr onmouseover="bonHighlightAnimal(true, @(i + 1));" onmouseout="bonHighlightAnimal(false, @(i + 1));">
-                                            <th>@(i + 1)</th>
+                                        <tr id="bon-result-table-row-@(i + 1)" onmouseover="bon.highlightAnimalRectangle(true, @(i + 1));" onmouseout="bon.highlightAnimalRectangle(false, @(i + 1));">
+                                            <th>
+                                                @(i + 1)
+                                            </th>
 
-                                            <td>@(animal.IsBird ? "Yes" : "No")</td>
-                                            <td>@(animal.IsBird ? $"({animal.IsBirdConfidence:P1})" : "-")</td>
+                                            <td>
+                                                @(animal.IsBird ? "Yes" : "No")
+                                                @(animal.IsBird ? $"({animal.IsBirdConfidence:P1})" : "")
+                                            </td>
 
-                                            <td>@(animal.Spiecies != null ? $"{animal.Spiecies}" : "-")</td>
-                                            <td>@(animal.Spiecies != null ? $"({animal.SpieciesConfidence:P1})" : "")</td>
+                                            <td>
+                                                @(animal.Spiecies != null ? $"{animal.Spiecies}" : "-")
+                                                @(animal.Spiecies != null ? $"({animal.SpieciesConfidence:P1})" : "")
+                                            </td>
 
-                                            <td>@(animal.IsAnimal ? "Yes" : "No")</td>
-                                            <td>@(animal.IsAnimal ? $"({animal.IsAnimalConfidence:P1})" : "-")</td>
+                                            <td>
+                                                @(animal.IsAnimal ? "Yes" : "No")
+                                                @(animal.IsAnimal ? $"({animal.IsAnimalConfidence:P1})" : "-")
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -167,14 +179,14 @@
 <footer class="bon-footer">
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-sm-4">
                 <h4>About</h4>
                 <p>
                     The technical details about this site will be described in a blogpost.
                 </p>
             </div>
 
-            <div class="col">
+            <div class="col-sm-4">
                 <h4>Inspiration</h4>
                 <p>
                     This website was inspired by <a href="https://xkcd.com/1425/" target="_blank">this XKCD about tasks</a>, but proving it's not &quot;virtually impossible&quot; anymore by using <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> to detect birds.
@@ -187,7 +199,7 @@
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col-sm-4">
                 <h4>Author</h4>
                 <p>
                     Developed by <a href="https://twitter.com/PeterOrneholm" target="_blank">@@PeterOrneholm</a> as a demo for the session <a href="http://bit.ly/peterorneholm-democratizing-ai">Democratizing AI with Azure Cognitive Services</a>.
@@ -221,12 +233,33 @@
 @section Scripts {
     <script>
         (function() {
-            window.bonHighlightAnimal = function(show, index) {
-                var id = "bon-result-image-rectangle-" + index;
-                var element = document.getElementById("#" + id);
-                var cssClass = "bon-result-image-rectangle-selected";
+            var bon = window.bon = {};
 
-                console.log(id);
+            var bonForm = document.querySelector("#bon-form");
+            var bonFormSubmitButton = bonForm.querySelector(".bon-form-submit-button");
+            var bonFormSubmitText = bonForm.querySelector(".bon-form-submit-text");
+            var bonFormSubmitSpinner = bonForm.querySelector(".bon-form-submit-spinner");
+
+            bonForm.addEventListener("submit", function() {
+                bonFormSubmitButton.disabled = true;
+                bonFormSubmitText.style.display = 'none';
+                bonFormSubmitSpinner.style.display = 'block';
+            });
+
+            bon.highlightAnimalRectangle = function(show, index) {
+                var id = "bon-result-image-rectangle-" + index;
+                var cssClass = "bon-result-image-rectangle-selected";
+                highlight(show, id, cssClass);
+            };
+
+            bon.highlightAnimalRow = function(show, index) {
+                var id = "bon-result-table-row-" + index;
+                var cssClass = "table-info";
+                highlight(show, id, cssClass);
+            };
+
+            function highlight(show, id, cssClass) {
+                var element = document.getElementById(id);
 
                 if (show) {
                     element.classList.add(cssClass);
