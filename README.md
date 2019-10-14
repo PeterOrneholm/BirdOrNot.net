@@ -2,7 +2,7 @@
 
 *NOTE: This is a repost of the [blog post found here](https://bit.ly/po-birdornot-blog).*
 
-As a technical person and developer, I'm a big fan of [XKCD](https://xkcd.com/) which makes entertaining comics about our industry. A couple of years ago I stumbled upon this one:
+As a technical person and developer, I'm a big fan of [XKCD](https://xkcd.com/) which makes entertaining comics about our industry. A couple of years ago I stumbled upon [this one](https://xkcd.com/1425/):
 
 ![XKCD](https://imgs.xkcd.com/comics/tasks.png)
 
