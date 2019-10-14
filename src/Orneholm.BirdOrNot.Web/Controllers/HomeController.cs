@@ -63,6 +63,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                             { "BON_BirdCount", result.Animals.Count.ToString() },
                             { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
                             { "BON_ImageDescription", result.Metadata.ImageDescription },
+                            { "BON_IsSample", _samples.Values.Contains(imageUrl).ToString() }
                         });
                     }
                 }
