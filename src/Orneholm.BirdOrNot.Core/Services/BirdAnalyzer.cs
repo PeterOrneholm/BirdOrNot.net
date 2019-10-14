@@ -33,9 +33,9 @@ namespace Orneholm.BirdOrNot.Core.Services
 
         private static bool IsInappropriateContent(ImageAnalysis analyzedImage)
         {
-            return (analyzedImage.Adult.IsAdultContent && analyzedImage.Adult.AdultScore > 0.9)
-                   || (analyzedImage.Adult.IsGoryContent && analyzedImage.Adult.GoreScore > 0.9)
-                   || (analyzedImage.Adult.IsRacyContent && analyzedImage.Adult.RacyScore > 0.9);
+            return (analyzedImage.Adult.IsAdultContent && analyzedImage.Adult.AdultScore > 0.95)
+                   || (analyzedImage.Adult.IsGoryContent && analyzedImage.Adult.GoreScore > 0.95)
+                   || (analyzedImage.Adult.IsRacyContent && analyzedImage.Adult.RacyScore > 0.95);
         }
 
         private static BirdAnalysisResult GetBirdAnalysisResult(ImageAnalysis analyzedImage)

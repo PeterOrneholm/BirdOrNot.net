@@ -46,14 +46,25 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                 {
                     var result = await _birdAnalyzer.AnalyzeImageFromUrlAsync(imageUrl);
                     viewModel.Result = result;
-                    _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
+                    if (result == null)
                     {
-                        { "BON_ImageUrl", imageUrl },
-                        { "BON_IsBird", result.IsBird.ToString() },
-                        { "BON_BirdCount", result.Animals.Count.ToString() },
-                        { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
-                        { "BON_ImageDescription", result.Metadata.ImageDescription },
-                    });
+                        _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
+                        {
+                            { "BON_ImageUrl", imageUrl },
+                            { "BON_IsAdult", "true" }
+                        });
+                    }
+                    else
+                    {
+                        _telemetryClient.TrackEvent("BON_ImageAnalyzed", new Dictionary<string, string>
+                        {
+                            { "BON_ImageUrl", imageUrl },
+                            { "BON_IsBird", result.IsBird.ToString() },
+                            { "BON_BirdCount", result.Animals.Count.ToString() },
+                            { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
+                            { "BON_ImageDescription", result.Metadata.ImageDescription },
+                        });
+                    }
                 }
                 catch (Exception ex)
                 {

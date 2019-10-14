@@ -74,7 +74,10 @@
                                      title="@animal.Species (@($"{animal.IsBirdConfidence:P1}"))"
                                      onmouseover="bon.highlightAnimalRow(true, @(animalIndex));" onmouseout="bon.highlightAnimalRow(false, @(animalIndex));"
                                      style="left: @rectangle.xPercentage.ToCssPercentageString(); top: @rectangle.yPercentage.ToCssPercentageString(); width: @rectangle.wPercentage.ToCssPercentageString(); height: @rectangle.hPercentage.ToCssPercentageString();">
-                                    <span>@animal.Species</span>
+                                    @if (!string.IsNullOrWhiteSpace(animal.Species))
+                                    {
+                                        <span>@animal.Species</span>
+                                    }
                                 </div>
                             }
                         </div>
@@ -124,7 +127,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Is&nbsp;bird?</th>
-                                        <th>Species</th>
+                                        <th>Group</th>
                                         <th>Is&nbsp;animal?</th>
                                     </tr>
                                 </thead>
@@ -228,14 +231,22 @@
     else
     {
         <title>@Model.IsBirdText - BirdOrNot.net - Is it a bird or not? Find out using AI!</title>
-        <meta name="description" content="@Model.IsBirdText - @Model.Result.Metadata.ImageDescription - Is it a bird or not? Try yourself using AI!" />
         <meta property="og:image" content="@Model.ImageUrl" />
+
+        if (Model.HasResult)
+        {
+            <meta name="description" content="@Model.IsBirdText - @Model.Result.Metadata.ImageDescription - Is it a bird or not? Try yourself using AI!" />
+        }
+        else
+        {
+            <meta name="description" content="@Model.IsBirdText - Is it a bird or not? Try yourself using AI!" />
+        }
     }
 }
 
 @section Scripts {
     <script>
-        (function() {
+        (function () {
             var bon = window.bon = {};
 
             var bonForm = document.querySelector("#bon-form");
@@ -243,19 +254,19 @@
             var bonFormSubmitText = bonForm.querySelector(".bon-form-submit-text");
             var bonFormSubmitSpinner = bonForm.querySelector(".bon-form-submit-spinner");
 
-            bonForm.addEventListener("submit", function() {
+            bonForm.addEventListener("submit", function () {
                 bonFormSubmitButton.disabled = true;
                 bonFormSubmitText.style.display = 'none';
                 bonFormSubmitSpinner.style.display = 'block';
             });
 
-            bon.highlightAnimalRectangle = function(show, index) {
+            bon.highlightAnimalRectangle = function (show, index) {
                 var id = "bon-result-image-rectangle-" + index;
                 var cssClass = "bon-result-image-rectangle-selected";
                 highlight(show, id, cssClass);
             };
 
-            bon.highlightAnimalRow = function(show, index) {
+            bon.highlightAnimalRow = function (show, index) {
                 var id = "bon-result-table-row-" + index;
                 var cssClass = "table-info";
                 highlight(show, id, cssClass);
