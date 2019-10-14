@@ -21,15 +21,24 @@ Below you can see a few samples, feel free to try it out yourself on the site:
 
 It builds on the default object detection model provided by Azure Cognitive Services, which can detect anything from buildings, vehicles to animals. It does a very good job of detecting birds, but as it's not specialized on birds, there will be cases where it makes mistakes. Still, shows how the power of AI and ML can be used by everyone who knows how to call a webservice.
 
-In essance, this is what it takes:
+If you boil it down, these are the few lines that powers the site:
 ```csharp
+var imageAnalysis = await computerVisionClient.AnalyzeImageAsync(url, new List<VisualFeatureTypes>
+{
+    VisualFeatureTypes.Objects
+});
 
+var isBird = imageAnalysis.Objects.Any(x => x.ObjectProperty.Equals("bird"));
+
+Console.WriteLine(isBird ? "It is a bird." : "It is not a bird.");
 ```
-
-If you or your company wants to know more about services like this, I deliver a session/Workshop called "[Democratizing AI with Azure Cognitive Services](http://bit.ly/peterorneholm-democratizing-ai)" which shows the potential of Cognitive Services by fun and creative examples.
 
 ## Behind the scenes
 The source code is fully available at GitHub, feel free to dig around to learn how it works:
 For those of you that are interested, here comes a brief explanation on the setup.
 Object recognition
 The service is using Azure Cognitive Services (TODO) to analyse the image. It  
+
+## Interested in even more details?
+
+If you or your company wants to know more about services like this, I deliver a session/Workshop called "[Democratizing AI with Azure Cognitive Services](http://bit.ly/peterorneholm-democratizing-ai)" which shows the potential of Cognitive Services by fun and creative examples. Please drop me an email if you want more details.
