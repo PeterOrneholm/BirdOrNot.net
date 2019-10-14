@@ -1,5 +1,7 @@
 # BirdOrNot.net - Is it a bird or not?
 
+*NOTE: This is a repost of the [blog post found here](https://bit.ly/po-birdornot-blog).*
+
 As a technical person and developer, I'm a big fan of [XKCD](https://xkcd.com/) which makes entertaining comics about our industry. A couple of years ago I stumbled upon this one:
 
 ![XKCD](https://imgs.xkcd.com/comics/tasks.png)
