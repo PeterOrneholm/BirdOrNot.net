@@ -91,10 +91,10 @@ namespace Orneholm.BirdOrNot.Web.Controllers
             var result = model.Result;
             if (result.IsBird)
             {
-                var birdSpiecies = result.Animals.FirstOrDefault(x => x.Spiecies != null);
-                if (birdSpiecies != null)
+                var birdSpecies = result.Animals.FirstOrDefault(x => x.Species != null);
+                if (birdSpecies != null)
                 {
-                    return $"It's a bird ({birdSpiecies.Spiecies})!";
+                    return $"It's a bird ({birdSpecies.Species})!";
                 }
 
                 return "It's a bird!";

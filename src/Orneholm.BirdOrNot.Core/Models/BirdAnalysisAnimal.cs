@@ -2,8 +2,8 @@
 {
     public class BirdAnalysisAnimal
     {
-        public string Spiecies { get; set; }
-        public double? SpieciesConfidence { get; set; }
+        public string Species { get; set; }
+        public double? SpeciesConfidence { get; set; }
         public bool IsBird { get; set; }
         public double? IsBirdConfidence { get; set; }
         public bool IsAnimal { get; set; }

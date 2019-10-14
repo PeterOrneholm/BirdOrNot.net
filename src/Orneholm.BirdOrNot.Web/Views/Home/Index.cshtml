@@ -71,10 +71,10 @@
 
                                 <div class="bon-result-image-rectangle"
                                      id="bon-result-image-rectangle-@animalIndex"
-                                     title="@animal.Spiecies (@($"{animal.IsBirdConfidence:P1}"))"
+                                     title="@animal.Species (@($"{animal.IsBirdConfidence:P1}"))"
                                      onmouseover="bon.highlightAnimalRow(true, @(animalIndex));" onmouseout="bon.highlightAnimalRow(false, @(animalIndex));"
                                      style="left: @rectangle.xPercentage.ToCssPercentageString(); top: @rectangle.yPercentage.ToCssPercentageString(); width: @rectangle.wPercentage.ToCssPercentageString(); height: @rectangle.hPercentage.ToCssPercentageString();">
-                                    <span>@animal.Spiecies</span>
+                                    <span>@animal.Species</span>
                                 </div>
                             }
                         </div>
@@ -124,7 +124,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Is&nbsp;bird?</th>
-                                        <th>Spiecies</th>
+                                        <th>Species</th>
                                         <th>Is&nbsp;animal?</th>
                                     </tr>
                                 </thead>
@@ -143,8 +143,8 @@
                                             </td>
 
                                             <td>
-                                                @(animal.Spiecies != null ? $"{animal.Spiecies}" : "-")
-                                                @(animal.Spiecies != null ? $"({animal.SpieciesConfidence:P1})" : "")
+                                                @(animal.Species != null ? $"{animal.Species}" : "-")
+                                                @(animal.Species != null ? $"({animal.SpeciesConfidence:P1})" : "")
                                             </td>
 
                                             <td>

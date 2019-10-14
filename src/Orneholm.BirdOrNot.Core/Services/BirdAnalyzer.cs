@@ -106,15 +106,15 @@ namespace Orneholm.BirdOrNot.Core.Services
                 .Select(x =>
                 {
                     var first = x.Value.FirstOrDefault();
-                    var hasSpiecies = x.Value.Count >= 3;
+                    var hasSpecies = x.Value.Count >= 3;
 
                     var isAnimal = x.Value.ContainsKey(AnimalObjectKey);
                     var isBird = x.Value.ContainsKey(BirdObjectKey);
 
                     return new BirdAnalysisAnimal
                     {
-                        Spiecies = hasSpiecies ? Capitalize(first.Key) : null,
-                        SpieciesConfidence = hasSpiecies ? first.Value : (double?)null,
+                        Species = hasSpecies ? Capitalize(first.Key) : null,
+                        SpeciesConfidence = hasSpecies ? first.Value : (double?)null,
 
                         IsAnimal = isAnimal,
                         IsAnimalConfidence = isAnimal ? x.Value[AnimalObjectKey] : (double?)null,

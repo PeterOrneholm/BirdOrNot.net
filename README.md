@@ -39,7 +39,7 @@ You can see a simple [sample with the code above at GitHub](https://github.com/P
 
 ## Behind the scenes
 
-The source code is [fully available at GitHub](https://github.com/PeterOrneholm/BirdOrNot.net/tree/master/src/Orneholm.BirdOrNot.SimpleSample), feel free to dig around to learn how it works. If you want to run it yourself, the image that runs on the site is available at dockerhub ([peterorneholm/orneholmbirdornotweb](https://hub.docker.com/r/peterorneholm/orneholmbirdornotweb)).
+The source code is [fully available at GitHub](https://github.com/PeterOrneholm/BirdOrNot.net/), feel free to dig around to learn how it works. If you want to run it yourself, the image that runs on the site is available at dockerhub ([peterorneholm/orneholmbirdornotweb](https://hub.docker.com/r/peterorneholm/orneholmbirdornotweb)).
 
 ```bash
 docker run --env AzureComputerVisionSubscriptionKey=XYZ --env AzureComputerVisionEndpoint=ABC peterorneholm/orneholmbirdornotweb
