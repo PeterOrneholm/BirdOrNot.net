@@ -9,7 +9,7 @@ namespace Orneholm.BirdOrNot.Core.Services
 {
     public class CachedBirdComputerVision : IBirdComputerVision
     {
-        private const string CacheKeyPrefix = "BON_AnalyzeUrl_V1";
+        private const string CacheKeyPrefix = "BON_AnalyzeUrl_V2";
         private static readonly TimeSpan CacheSlidingExpiration = TimeSpan.FromDays(30);
 
         private readonly IBirdComputerVision _birdComputerVision;

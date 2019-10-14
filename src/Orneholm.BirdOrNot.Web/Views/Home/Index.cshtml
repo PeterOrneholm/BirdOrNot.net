@@ -88,7 +88,7 @@
                                 @if (result.IsBird)
                                 {
                                     <p class="card-text">
-                                        According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image contains a bird (@($"{result.IsBirdConfidence:P1}") confidence).
+                                        According to <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> the image contains a bird@(result.IsBirdConfidence != null ? $" ({result.IsBirdConfidence:P1} confidence)" : "").
                                         @if (result.Animals.Count > 1)
                                         {
                                             <text>It even contains multiple birds (@result.Animals.Count to be exact). See a list of them below.</text>

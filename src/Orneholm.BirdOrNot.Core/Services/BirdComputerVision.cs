@@ -10,6 +10,9 @@ namespace Orneholm.BirdOrNot.Core.Services
         private readonly IComputerVisionClient _computerVisionClient;
         private static readonly List<VisualFeatureTypes> VisualFeatures = new List<VisualFeatureTypes>
         {
+            // 8.738 SEK / 1000 transactions
+            VisualFeatureTypes.Tags,
+
             // 13.106 SEK / 1000 transactions
             VisualFeatureTypes.Adult,
             VisualFeatureTypes.Objects,
@@ -18,7 +21,7 @@ namespace Orneholm.BirdOrNot.Core.Services
             VisualFeatureTypes.Description
         };
 
-        //Total: 0,048055 SEK / image
+        //Total: 0,056793 SEK / image
 
         public BirdComputerVision(IComputerVisionClient computerVisionClient)
         {

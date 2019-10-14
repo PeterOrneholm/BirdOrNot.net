@@ -38,7 +38,7 @@ namespace Orneholm.BirdOrNot.Core.Services
 
         private static BirdAnalysisResult GetBirdAnalysisResult(ImageAnalysis analyzedImage)
         {
-            var birds = GetAnimals(analyzedImage).ToList();
+            var animals = GetAnimals(analyzedImage).ToList();
             var imageDescription = MakeSentence(analyzedImage.Description?.Captions?.FirstOrDefault()?.Text);
 
             var birdAnalysisMetadata = new BirdAnalysisMetadata
@@ -52,15 +52,54 @@ namespace Orneholm.BirdOrNot.Core.Services
                 ImageFormat = analyzedImage.Metadata.Format
             };
 
-            UpdateRectangles(birds, birdAnalysisMetadata);
+            UpdateRectangles(animals, birdAnalysisMetadata);
 
+            var isBird = GetIsBird(analyzedImage, animals);
             return new BirdAnalysisResult
             {
-                IsBird = birds.Any(x => x.IsBird),
-                IsBirdConfidence = birds.Where(x => x.IsBird).Max(x => x.IsBirdConfidence),
-                Animals = birds,
+                IsBird = isBird.Key,
+                IsBirdConfidence = isBird.Value,
+
+                Animals = animals,
+
                 Metadata = birdAnalysisMetadata
             };
+        }
+
+        private static KeyValuePair<bool, double?> GetIsBird(ImageAnalysis analyzedImage, List<BirdAnalysisAnimal> animals)
+        {
+            var fromObjects = new KeyValuePair<bool, double?>(
+                animals.Any(x => x.IsBird),
+                animals.Where(x => x.IsBird).Max(x => x.IsBirdConfidence)
+            );
+
+            var birdTag = analyzedImage.Tags.FirstOrDefault(x => TextEqualsBird(x.Name));
+            var fromTags = new KeyValuePair<bool, double?>(
+                birdTag != null,
+                birdTag?.Confidence
+            );
+
+            if (fromObjects.Key || fromTags.Key)
+            {
+                return new KeyValuePair<bool, double?>(
+                    true,
+                    Math.Max(fromObjects.Value.GetValueOrDefault(), fromTags.Value.GetValueOrDefault())
+                );
+            }
+
+            var descriptionWords = analyzedImage.Description.Captions.SelectMany(x => x.Text.Split(' ')).ToList();
+            var anyBirdWordInDescription = descriptionWords.Any(TextEqualsBird);
+            var anyBirdTag = analyzedImage.Description.Tags.Any(TextEqualsBird);
+
+            return new KeyValuePair<bool, double?>(
+                anyBirdWordInDescription || anyBirdTag,
+                null
+            );
+        }
+
+        private static bool TextEqualsBird(string x)
+        {
+            return x.Equals(BirdObjectKey, StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static void UpdateRectangles(List<BirdAnalysisAnimal> birds, BirdAnalysisMetadata birdAnalysisMetadata)
