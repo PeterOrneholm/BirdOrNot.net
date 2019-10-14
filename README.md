@@ -10,7 +10,7 @@ Turns out that it was published September 2014, almost exactly 5 years ago, the 
 
 ![BirdOrNot.net](docs/images/BirdOrNotNet_Form.png)
 
-BirdOrNot.net uses the object detection capability in [Azure Cognitive Services](https://bit.ly/azure-cog-computer-vision) to find out if the image contains a bird and, in some cases, it even finds out what species it is. I didn't have to hire a team of researchers for five years, instead Microsoft did and made the result available as a service in Azure.
+BirdOrNot.net uses the Artificial Intelligence (AI) powered object detection capability in [Azure Cognitive Services](https://bit.ly/azure-cog-computer-vision) to find out if the image contains a bird and, in some cases, it even finds out what species it is. I didn't have to hire a team of researchers for five years, instead Microsoft did and made the result available as a service in Azure.
 
 Using that specific service, I was able to go from idea to working concept in under an hour, with a few more hours spent on CSS :)
 
@@ -80,6 +80,10 @@ I've activated a custom alert that will send me an email in case the traffic to 
 ### Cost
 
 There are a few basic costs involved. But the part that could become expensive is the analytics of images. I've estimated it to cost roughly *$5 USD / 1000 images* analyzed. By caching the results I'm preventing the samples to cost me any money and I will be able to handle the cost for quite a lot of images.
+
+## Next steps
+
+I would like to add som custom models to detect "Bird like" things, like *Big Yellow Bird*, *Jack Sparrow* etc. I could use [Azure Custom Vision](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/) for this, just give me some time and I'll fix it :)
 
 ## Interested in even more details?
 
