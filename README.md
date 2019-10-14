@@ -19,7 +19,7 @@ Using that specific service, I was able to go from idea to working concept in un
 Below you can see a few samples, feel free to try it out yourself on the site:
 [https://birdornot.net/](https://birdornot.net/)
 
-![BirdOrNot.net](docs/images/BirdOrNotNet_Owls.png)
+![BirdOrNot.net](docs/images/BirdOrNotNet_Owl.png)
 
 It builds on the default object detection model provided by Azure Cognitive Services, which can detect anything from buildings, vehicles to animals. It does a very good job of detecting birds, but as it's not specialized on birds, there will be cases where it makes mistakes. Still, shows how the power of AI and ML can be used by everyone who knows how to call a webservice.
 
