@@ -1,2 +1,20 @@
-# BirdOrNot.net
-Source code for the website BirdOrNot.net
+# BirdOrNot.net – Is it a bird or not?
+
+As a technical person and developer, I’m a big fan of XKCD which makes entertaining comics about our industry. A couple of years ago I stumbled upon this one:
+
+[IMAGE: XKCD] 
+
+Turns out that it was published September 2014, almost exactly 5 years ago, the time the team would need according to the comic. So, I thought, this should be solved now, right? And it turns out it did… Today I’m proud to announce:
+Introducing BirdOrNot.net
+
+[IMAGE: BirdOrNot]
+
+BirdOrNot.net uses the object detection capability in Azure Cognitive Services to find out if the image contains a bird and, in some cases, it even finds out what species it is. I didn’t hire a team of researchers for five years, instead Microsoft did and made the result available as a service in Azure. Using that specific service, I was able to go from idea to working concept in under an hour, with a few more hours spent on CSS…
+Below you can see a few samples, feel free to try it out yourself on the site: https://birdornot.net/
+It builds on the default object detection model provided by Azure Cognitive Services, which can detect anything from buildings, vehicles to animals. It does a very good job of detecting birds, but as it’s not specialized on birds, there will be cases where it makes mistakes. Still, shows how the power of AI and ML can be used by everyone who knows how to call a webservice.
+If you or your company wants to know more about services like this, I deliver a session/Workshop called "[TODO]" which shows the potential of Cognitive Services by fun and creative examples. Read more on Sessionize.
+Behind the scenes
+The source code is fully available at GitHub, feel free to dig around to learn how it works:
+For those of you that are interested, here comes a brief explanation on the setup.
+Object recognition
+The service is using Azure Cognitive Services (TODO) to analyse the image. It  
