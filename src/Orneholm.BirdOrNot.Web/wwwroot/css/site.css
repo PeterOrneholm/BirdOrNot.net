@@ -188,6 +188,13 @@ html, body {
     padding: 10px;
 }
 
+@media (min-width: 768px) {
+    .bon-result-card-image > .card {
+        transform: rotate(-10deg) translateX(40px) translateY(-30px);
+    }
+}
+
+
 .bon-result-card-text {
     padding: 10px;
 }
@@ -195,6 +202,12 @@ html, body {
     .bon-result-card-text .card .card-body {
         padding-bottom: 0;
     }
+
+@media (min-width: 768px) {
+    .bon-result-card-text > .card {
+        transform: rotate(3deg);
+    }
+}
 
 /* Misc */
 .card, form {

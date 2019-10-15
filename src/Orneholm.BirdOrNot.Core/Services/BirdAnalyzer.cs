@@ -41,10 +41,14 @@ namespace Orneholm.BirdOrNot.Core.Services
             var animals = GetAnimals(analyzedImage).ToList();
             var imageDescription = MakeSentence(analyzedImage.Description?.Captions?.FirstOrDefault()?.Text);
 
+            var tags = new List<string>();
+            tags.AddRange(analyzedImage.Tags?.OrderByDescending(x => x.Confidence).Select(x => x.Name + (string.IsNullOrWhiteSpace(x.Hint) ? "" : $" ({x.Hint})")).ToList() ?? new List<string>());
+            tags.AddRange(analyzedImage?.Description?.Tags ?? new List<string>());
+
             var birdAnalysisMetadata = new BirdAnalysisMetadata
             {
                 ImageDescription = imageDescription,
-                ImageTags = analyzedImage.Description?.Tags.ToList(),
+                ImageTags = tags.Distinct().ToList(),
 
                 ImageWidth = analyzedImage.Metadata.Width,
                 ImageHeight = analyzedImage.Metadata.Height,
@@ -55,12 +59,24 @@ namespace Orneholm.BirdOrNot.Core.Services
             UpdateRectangles(animals, birdAnalysisMetadata);
 
             var isBird = GetIsBird(analyzedImage, animals);
+            var species = GetSpecies(analyzedImage, animals);
+
+            if (animals.Count == 1 && string.IsNullOrWhiteSpace(animals.First().Species))
+            {
+                if (species.Any())
+                {
+                    animals.First().Species = species.First().Key;
+                    animals.First().SpeciesConfidence = species.First().Value;
+                }
+            }
+
             return new BirdAnalysisResult
             {
                 IsBird = isBird.Key,
                 IsBirdConfidence = isBird.Value,
 
                 Animals = animals,
+                Species = species.Keys.ToList(),
 
                 Metadata = birdAnalysisMetadata
             };
@@ -73,7 +89,7 @@ namespace Orneholm.BirdOrNot.Core.Services
                 animals.Where(x => x.IsBird).Max(x => x.IsBirdConfidence)
             );
 
-            var birdTag = analyzedImage.Tags.FirstOrDefault(x => TextEqualsBird(x.Name));
+            var birdTag = analyzedImage.Tags.FirstOrDefault(x => TextEqualsBird(x.Name) || TextEqualsBird(x.Hint));
             var fromTags = new KeyValuePair<bool, double?>(
                 birdTag != null,
                 birdTag?.Confidence
@@ -96,9 +112,31 @@ namespace Orneholm.BirdOrNot.Core.Services
             );
         }
 
+        private static Dictionary<string, double> GetSpecies(ImageAnalysis analyzedImage, List<BirdAnalysisAnimal> animals)
+        {
+            var species = new List<KeyValuePair<string, double>>();
+
+            foreach (var animal in animals.Where(x => x.Species != null))
+            {
+                species.Add(new KeyValuePair<string, double>(animal.Species, animal.SpeciesConfidence.GetValueOrDefault(0.0)));
+            }
+
+            if(analyzedImage.Tags != null) { 
+                foreach (var tag in analyzedImage.Tags.Where(x => TextEqualsBird(x.Hint)))
+                {
+                    species.Add(new KeyValuePair<string, double>(tag.Name, tag.Confidence));
+                }
+            }
+
+            species = species.Select(x => new KeyValuePair<string, double>(Capitalize(x.Key), x.Value)).ToList();
+            var result = species.GroupBy(x => x.Key).ToDictionary(x => x.Key, x => x.Max(y => y.Value));
+
+            return result;
+        }
+
         private static bool TextEqualsBird(string x)
         {
-            return x.Equals(BirdObjectKey, StringComparison.InvariantCultureIgnoreCase);
+            return x != null && x.Equals(BirdObjectKey, StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static void UpdateRectangles(List<BirdAnalysisAnimal> birds, BirdAnalysisMetadata birdAnalysisMetadata)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Orneholm.BirdOrNot.Core.Models
 {
@@ -7,6 +8,9 @@ namespace Orneholm.BirdOrNot.Core.Models
         public bool IsBird { get; set; }
         public bool IsInappropriateContent { get; set; }
         public double? IsBirdConfidence { get; set; }
+
+        public bool HasSpecies => Species.Any();
+        public List<string> Species { get; set; }
 
         public List<BirdAnalysisAnimal> Animals { get; set; }
 
