@@ -96,7 +96,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                 var birdSpecies = result.Animals.Where(x => x.Species != null).Distinct().ToList();
                 if (birdSpecies.Any())
                 {
-                    return $"It's a bird ({string.Join(", ", birdSpecies)})!";
+                    return $"It's a bird ({string.Join(", ", birdSpecies.Select(x => x.Species))})!";
                 }
 
                 return "It's a bird!";
