@@ -89,10 +89,9 @@ namespace Orneholm.BirdOrNot.Core.Services
 
             var descriptionWords = analyzedImage.Description.Captions.SelectMany(x => x.Text.Split(' ')).ToList();
             var anyBirdWordInDescription = descriptionWords.Any(TextEqualsBird);
-            var anyBirdTag = analyzedImage.Description.Tags.Any(TextEqualsBird);
 
             return new KeyValuePair<bool, double?>(
-                anyBirdWordInDescription || anyBirdTag,
+                anyBirdWordInDescription,
                 null
             );
         }
