@@ -59,27 +59,31 @@ namespace Orneholm.BirdOrNot.Core.Services
             UpdateRectangles(animals, birdAnalysisMetadata);
 
             var isBird = GetIsBird(analyzedImage, animals);
-            var species = GetSpecies(analyzedImage, animals);
+            var animalGroups = GetAnimalGroups(analyzedImage, animals);
 
-            if (animals.Count == 1 && string.IsNullOrWhiteSpace(animals.First().Species))
+            if (animals.Count == 1 && string.IsNullOrWhiteSpace(animals.First().AnimalGroup))
             {
-                if (species.Any())
+                if (animalGroups.Any())
                 {
-                    animals.First().Species = species.First().Key;
-                    animals.First().SpeciesConfidence = species.First().Value;
+                    animals.First().AnimalGroup = animalGroups.First().Key;
+                    animals.First().AnimalGroupConfidence = animalGroups.First().Value;
                 }
             }
 
-            return new BirdAnalysisResult
+            var result = new BirdAnalysisResult
             {
                 IsBird = isBird.Key,
                 IsBirdConfidence = isBird.Value,
 
                 Animals = animals,
-                Species = species.Keys.ToList(),
+                AnimalGroups = animalGroups.Keys.ToList(),
 
                 Metadata = birdAnalysisMetadata
             };
+
+            result.IsBirdText = GetIsBirdText(result);
+
+            return result;
         }
 
         private static KeyValuePair<bool, double?> GetIsBird(ImageAnalysis analyzedImage, List<BirdAnalysisAnimal> animals)
@@ -112,26 +116,41 @@ namespace Orneholm.BirdOrNot.Core.Services
             );
         }
 
-        private static Dictionary<string, double> GetSpecies(ImageAnalysis analyzedImage, List<BirdAnalysisAnimal> animals)
+        private static Dictionary<string, double> GetAnimalGroups(ImageAnalysis analyzedImage, List<BirdAnalysisAnimal> animals)
         {
-            var species = new List<KeyValuePair<string, double>>();
+            var animalGroups = new List<KeyValuePair<string, double>>();
 
-            foreach (var animal in animals.Where(x => x.Species != null))
+            foreach (var animal in animals.Where(x => x.AnimalGroup != null))
             {
-                species.Add(new KeyValuePair<string, double>(animal.Species, animal.SpeciesConfidence.GetValueOrDefault(0.0)));
+                animalGroups.Add(new KeyValuePair<string, double>(animal.AnimalGroup, animal.AnimalGroupConfidence.GetValueOrDefault(0.0)));
             }
 
             if(analyzedImage.Tags != null) { 
                 foreach (var tag in analyzedImage.Tags.Where(x => TextEqualsBird(x.Hint)))
                 {
-                    species.Add(new KeyValuePair<string, double>(tag.Name, tag.Confidence));
+                    animalGroups.Add(new KeyValuePair<string, double>(tag.Name, tag.Confidence));
                 }
             }
 
-            species = species.Select(x => new KeyValuePair<string, double>(Capitalize(x.Key), x.Value)).ToList();
-            var result = species.GroupBy(x => x.Key).ToDictionary(x => x.Key, x => x.Max(y => y.Value));
+            animalGroups = animalGroups.Select(x => new KeyValuePair<string, double>(Capitalize(x.Key), x.Value)).ToList();
+            var result = animalGroups.GroupBy(x => x.Key).ToDictionary(x => x.Key, x => x.Max(y => y.Value));
 
             return result;
+        }
+
+        private static string GetIsBirdText(BirdAnalysisResult birdAnalysisResult)
+        {
+            if (birdAnalysisResult.IsBird)
+            {
+                if (birdAnalysisResult.HasAnimalGroup)
+                {
+                    return $"It's a bird ({string.Join(", ", birdAnalysisResult.AnimalGroups)})!";
+                }
+
+                return "It's a bird!";
+            }
+
+            return "It's not a bird.";
         }
 
         private static bool TextEqualsBird(string x)
@@ -145,12 +164,24 @@ namespace Orneholm.BirdOrNot.Core.Services
             {
                 var rectangle = bird.Rectangle;
 
-                rectangle.xPercentage = (double)rectangle.x / birdAnalysisMetadata.ImageWidth * 100;
-                rectangle.yPercentage = (double)rectangle.y / birdAnalysisMetadata.ImageHeight * 100;
+                rectangle.xPercentage = GetPercentage(rectangle.x, birdAnalysisMetadata.ImageWidth);
+                rectangle.yPercentage = GetPercentage(rectangle.y, birdAnalysisMetadata.ImageHeight);
 
-                rectangle.wPercentage = (double)rectangle.w / birdAnalysisMetadata.ImageWidth * 100;
-                rectangle.hPercentage = (double)rectangle.h / birdAnalysisMetadata.ImageHeight * 100;
+                rectangle.widthPercentage = GetPercentage(rectangle.width, birdAnalysisMetadata.ImageWidth);
+                rectangle.heightPercentage = GetPercentage(rectangle.height, birdAnalysisMetadata.ImageHeight);
             }
+        }
+
+        public static double GetPercentage(int value, int fullValue)
+        {
+            var percentage = (double)value / fullValue;
+            return TruncateDecimal(percentage, 5);
+        }
+
+        public static double TruncateDecimal(double value, int precision)
+        {
+            var step = Math.Pow(10, precision);
+            return Math.Truncate(step * value) / step;
         }
 
         private static string Capitalize(string value)
@@ -180,15 +211,15 @@ namespace Orneholm.BirdOrNot.Core.Services
                 .Select(x =>
                 {
                     var first = x.Value.FirstOrDefault();
-                    var hasSpecies = x.Value.Count >= 3;
+                    var hasAnimalGroup = x.Value.Count >= 3;
 
                     var isAnimal = x.Value.ContainsKey(AnimalObjectKey);
                     var isBird = x.Value.ContainsKey(BirdObjectKey);
 
                     return new BirdAnalysisAnimal
                     {
-                        Species = hasSpecies ? Capitalize(first.Key) : null,
-                        SpeciesConfidence = hasSpecies ? first.Value : (double?)null,
+                        AnimalGroup = hasAnimalGroup ? Capitalize(first.Key) : null,
+                        AnimalGroupConfidence = hasAnimalGroup ? first.Value : (double?)null,
 
                         IsAnimal = isAnimal,
                         IsAnimalConfidence = isAnimal ? x.Value[AnimalObjectKey] : (double?)null,
@@ -200,8 +231,8 @@ namespace Orneholm.BirdOrNot.Core.Services
                         {
                             x = x.Key.Rectangle.X,
                             y = x.Key.Rectangle.Y,
-                            w = x.Key.Rectangle.W,
-                            h = x.Key.Rectangle.H
+                            width = x.Key.Rectangle.W,
+                            height = x.Key.Rectangle.H
                         }
                     };
                 });

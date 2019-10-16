@@ -6,9 +6,9 @@
         public double xPercentage { get; set; }
         public int y { get; set; }
         public double yPercentage { get; set; }
-        public int w { get; set; }
-        public double wPercentage { get; set; }
-        public int h { get; set; }
-        public double hPercentage { get; set; }
+        public int width { get; set; }
+        public double widthPercentage { get; set; }
+        public int height { get; set; }
+        public double heightPercentage { get; set; }
     }
 }

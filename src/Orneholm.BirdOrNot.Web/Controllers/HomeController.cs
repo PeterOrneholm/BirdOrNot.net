@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
-using Orneholm.BirdOrNot.Core.Models;
 using Orneholm.BirdOrNot.Core.Services;
 using Orneholm.BirdOrNot.Web.Models;
 
@@ -32,7 +31,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
         }
 
         [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Any)]
-        public async Task<ActionResult<BirdAnalysisResult>> Index(string imageUrl)
+        public async Task<ActionResult<HomeIndexViewModel>> Index(string imageUrl)
         {
             var viewModel = new HomeIndexViewModel
             {
@@ -54,7 +53,8 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                         { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
                         { "BON_ImageDescription", result.Metadata.ImageDescription },
                         { "BON_IsSample", _samples.Values.Contains(imageUrl).ToString() },
-                        { "BON_IsInappropriateContent", result.IsInappropriateContent.ToString() }
+                        { "BON_IsInappropriateContent", result.IsInappropriateContent.ToString() },
+                        { "BON_Source", "Site" }
                     });
                 }
                 catch (Exception ex)
@@ -62,12 +62,13 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                     viewModel.Result = null;
                     _telemetryClient.TrackException(ex, new Dictionary<string, string>
                     {
-                        { "BON_ImageUrl", imageUrl }
+                        { "BON_ImageUrl", imageUrl },
+                        { "BON_Source", "Site" }
                     });
                 }
             }
 
-            viewModel.IsBirdText = GetIsBirdText(viewModel);
+            viewModel.IsBirdText = viewModel.Result?.IsBirdText ?? string.Empty;
             viewModel.CanonicalUrl = GetCanonicalUrl(viewModel);
 
             return View(viewModel);
@@ -81,27 +82,6 @@ namespace Orneholm.BirdOrNot.Web.Controllers
             }
 
             return $"https://birdornot.net/?ImageUrl={Uri.EscapeDataString(model.ImageUrl)}";
-        }
-
-        private string GetIsBirdText(HomeIndexViewModel model)
-        {
-            if (!model.HasResult)
-            {
-                return string.Empty;
-            }
-
-            var result = model.Result;
-            if (result.IsBird)
-            {
-                if (result.HasSpecies)
-                {
-                    return $"It's a bird ({string.Join(", ", result.Species)})!";
-                }
-
-                return "It's a bird!";
-            }
-
-            return "It's not a bird.";
         }
     }
 }

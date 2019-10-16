@@ -71,12 +71,12 @@
 
                                 <div class="bon-result-image-rectangle"
                                      id="bon-result-image-rectangle-@animalIndex"
-                                     title="@animal.Species (@($"{animal.IsBirdConfidence:P1}"))"
+                                     title="@animal.AnimalGroup (@($"{animal.IsBirdConfidence:P1}"))"
                                      onmouseover="bon.highlightAnimalRow(true, @(animalIndex));" onmouseout="bon.highlightAnimalRow(false, @(animalIndex));"
-                                     style="left: @rectangle.xPercentage.ToCssPercentageString(); top: @rectangle.yPercentage.ToCssPercentageString(); width: @rectangle.wPercentage.ToCssPercentageString(); height: @rectangle.hPercentage.ToCssPercentageString();">
-                                    @if (!string.IsNullOrWhiteSpace(animal.Species))
+                                     style="left: @rectangle.xPercentage.ToCssPercentageString(); top: @rectangle.yPercentage.ToCssPercentageString(); width: @rectangle.widthPercentage.ToCssPercentageString(); height: @rectangle.heightPercentage.ToCssPercentageString();">
+                                    @if (!string.IsNullOrWhiteSpace(animal.AnimalGroup))
                                     {
-                                        <span>@animal.Species</span>
+                                        <span>@animal.AnimalGroup</span>
                                     }
                                 </div>
                             }
@@ -146,8 +146,8 @@
                                             </td>
 
                                             <td>
-                                                @(animal.Species != null ? $"{animal.Species}" : "-")
-                                                @(animal.Species != null ? $"({animal.SpeciesConfidence:P1})" : "")
+                                                @(animal.AnimalGroup != null ? $"{animal.AnimalGroup}" : "-")
+                                                @(animal.AnimalGroup != null ? $"({animal.AnimalGroupConfidence:P1})" : "")
                                             </td>
 
                                             <td>

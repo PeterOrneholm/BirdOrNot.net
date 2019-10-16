@@ -6,7 +6,7 @@ namespace Orneholm.BirdOrNot.Web
     {
         public static string ToCssPercentageString(this double value)
         {
-            return $"{value.ToString(CultureInfo.GetCultureInfo("en-US"))}%";
+            return $"{(value * 100).ToString(CultureInfo.GetCultureInfo("en-US"))}%";
         }
     }
 }
