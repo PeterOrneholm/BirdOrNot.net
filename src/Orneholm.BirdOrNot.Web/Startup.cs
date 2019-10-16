@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
@@ -66,8 +67,11 @@ namespace Orneholm.BirdOrNot.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = GetContentTypeProvider()
+            });
             app.UseRouting();
 
             app.UseAuthorization();
@@ -77,6 +81,13 @@ namespace Orneholm.BirdOrNot.Web
                 endpoints.MapHealthChecks("/health");
                 endpoints.MapDefaultControllerRoute();
             });
+        }
+
+        private static FileExtensionContentTypeProvider GetContentTypeProvider()
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".webmanifest"] = "application/manifest+json";
+            return provider;
         }
     }
 }
