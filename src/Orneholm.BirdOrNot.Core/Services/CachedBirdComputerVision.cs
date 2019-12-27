@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
@@ -33,7 +33,7 @@ namespace Orneholm.BirdOrNot.Core.Services
             return imageAnalysis;
         }
 
-        private async Task<ImageAnalysis> GetCache(string url)
+        private async Task<ImageAnalysis?> GetCache(string url)
         {
             var encodedImageAnalysis = await _distributedCache.GetAsync(GetKey(url));
             if (encodedImageAnalysis != null)

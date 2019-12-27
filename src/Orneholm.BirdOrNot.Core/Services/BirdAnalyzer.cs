@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +43,7 @@ namespace Orneholm.BirdOrNot.Core.Services
 
             var tags = new List<string>();
             tags.AddRange(analyzedImage.Tags?.OrderByDescending(x => x.Confidence).Select(x => x.Name + (string.IsNullOrWhiteSpace(x.Hint) ? "" : $" ({x.Hint})")).ToList() ?? new List<string>());
-            tags.AddRange(analyzedImage?.Description?.Tags ?? new List<string>());
+            tags.AddRange(analyzedImage.Description?.Tags ?? new List<string>());
 
             var birdAnalysisMetadata = new BirdAnalysisMetadata
             {
@@ -194,11 +194,11 @@ namespace Orneholm.BirdOrNot.Core.Services
             return char.ToUpper(value[0]) + value.Substring(1);
         }
 
-        private static string MakeSentence(string value)
+        private static string MakeSentence(string? value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (value == null || string.IsNullOrEmpty(value))
             {
-                return value;
+                return value ?? string.Empty;
             }
 
             return Capitalize(value) + ".";
@@ -218,7 +218,7 @@ namespace Orneholm.BirdOrNot.Core.Services
 
                     return new BirdAnalysisAnimal
                     {
-                        AnimalGroup = hasAnimalGroup ? Capitalize(first.Key) : null,
+                        AnimalGroup = hasAnimalGroup ? Capitalize(first.Key) : string.Empty,
                         AnimalGroupConfidence = hasAnimalGroup ? first.Value : (double?)null,
 
                         IsAnimal = isAnimal,

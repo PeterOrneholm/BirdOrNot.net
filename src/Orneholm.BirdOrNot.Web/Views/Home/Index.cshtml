@@ -1,4 +1,4 @@
-﻿@using Orneholm.BirdOrNot.Web
+@using Orneholm.BirdOrNot.Web
 @model Orneholm.BirdOrNot.Web.Models.HomeIndexViewModel
 
 <div class="bon-page-wrapper @(Model.HasResult ? "bon-result-available" : "bon-result-unavailable")">
@@ -146,8 +146,8 @@
                                             </td>
 
                                             <td>
-                                                @(animal.AnimalGroup != null ? $"{animal.AnimalGroup}" : "-")
-                                                @(animal.AnimalGroup != null ? $"({animal.AnimalGroupConfidence:P1})" : "")
+                                                @(!string.IsNullOrEmpty(animal.AnimalGroup) ? $"{animal.AnimalGroup}" : "-")
+                                                @(animal.AnimalGroupConfidence != null ? $"({animal.AnimalGroupConfidence:P1})" : "")
                                             </td>
 
                                             <td>

@@ -9,13 +9,13 @@ namespace Orneholm.BirdOrNot.Core.Models
 
         public bool IsBird { get; set; }
         public double? IsBirdConfidence { get; set; }
-        public string IsBirdText { get; set; }
+        public string IsBirdText { get; set; } = string.Empty;
 
         public bool HasAnimalGroup => AnimalGroups.Any();
-        public List<string> AnimalGroups { get; set; }
-        public List<BirdAnalysisAnimal> Animals { get; set; }
+        public List<string> AnimalGroups { get; set; } = new List<string>();
+        public List<BirdAnalysisAnimal> Animals { get; set; } = new List<BirdAnalysisAnimal>();
 
         public bool IsInappropriateContent { get; set; }
-        public BirdAnalysisMetadata Metadata { get; set; }
+        public BirdAnalysisMetadata Metadata { get; set; } = new BirdAnalysisMetadata();
     }
 }
