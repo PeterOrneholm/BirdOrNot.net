@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -39,7 +39,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                         { "BON_ImageUrl", imageUrl },
                         { "BON_IsBird", result.IsBird.ToString() },
                         { "BON_BirdCount", result.Animals.Count.ToString() },
-                        { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
+                        { "BON_IsBirdConfidence", result.IsBirdConfidence?.ToString() ?? string.Empty },
                         { "BON_ImageDescription", result.Metadata.ImageDescription },
                         { "BON_IsInappropriateContent", result.IsInappropriateContent.ToString() },
                         { "BON_Source", "Api_V1" }

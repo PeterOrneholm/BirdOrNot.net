@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
+using Orneholm.BirdOrNot.Core.Models;
 using Orneholm.BirdOrNot.Core.Services;
 using Orneholm.BirdOrNot.Web.Models;
 
@@ -50,7 +51,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                         { "BON_ImageUrl", imageUrl },
                         { "BON_IsBird", result.IsBird.ToString() },
                         { "BON_BirdCount", result.Animals.Count.ToString() },
-                        { "BON_IsBirdConfidence", result.IsBirdConfidence.ToString() },
+                        { "BON_IsBirdConfidence", result.IsBirdConfidence?.ToString() ?? string.Empty },
                         { "BON_ImageDescription", result.Metadata.ImageDescription },
                         { "BON_IsSample", _samples.Values.Contains(imageUrl).ToString() },
                         { "BON_IsInappropriateContent", result.IsInappropriateContent.ToString() },
@@ -59,7 +60,7 @@ namespace Orneholm.BirdOrNot.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    viewModel.Result = null;
+                    viewModel.Result = BirdAnalysisResult.Empty;
                     _telemetryClient.TrackException(ex, new Dictionary<string, string>
                     {
                         { "BON_ImageUrl", imageUrl },

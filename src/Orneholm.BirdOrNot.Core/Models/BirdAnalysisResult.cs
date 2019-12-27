@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Orneholm.BirdOrNot.Core.Models
 {
     public class BirdAnalysisResult
     {
+        public static readonly BirdAnalysisResult Empty = new BirdAnalysisResult();
+
         public bool IsBird { get; set; }
         public double? IsBirdConfidence { get; set; }
         public string IsBirdText { get; set; }
