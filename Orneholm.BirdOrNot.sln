@@ -5,16 +5,18 @@ VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orneholm.BirdOrNot.Web", "src\Orneholm.BirdOrNot.Web\Orneholm.BirdOrNot.Web.csproj", "{E423F870-3C32-4B46-B781-2573046115A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orneholm.BirdOrNot.Core", "src\Orneholm.BirdOrNot.Core\Orneholm.BirdOrNot.Core.csproj", "{F3EEC720-A40B-41FB-A611-47F88FC6AFA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orneholm.BirdOrNot.Core", "src\Orneholm.BirdOrNot.Core\Orneholm.BirdOrNot.Core.csproj", "{F3EEC720-A40B-41FB-A611-47F88FC6AFA0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{C0F3C491-6722-4FEA-B4C6-8FF88D0DB5BE}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		global.json = global.json
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orneholm.BirdOrNot.SimpleSample", "src\Orneholm.BirdOrNot.SimpleSample\Orneholm.BirdOrNot.SimpleSample.csproj", "{28597D98-804A-4373-8DD3-5A53CBA6B72F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orneholm.BirdOrNot.SimpleSample", "src\Orneholm.BirdOrNot.SimpleSample\Orneholm.BirdOrNot.SimpleSample.csproj", "{28597D98-804A-4373-8DD3-5A53CBA6B72F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
