@@ -41,7 +41,7 @@ stages:
       inputs:
         command: buildAndPush
         repository: peterorneholm/orneholmbirdornotweb
-        Dockerfile: app/Dockerfile
+        Dockerfile: src/Orneholm.BirdOrNot.Web/Dockerfile
         tags: |
           latest
           $(dockerImageTag)
