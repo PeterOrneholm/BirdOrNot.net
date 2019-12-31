@@ -1,3 +1,5 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
@@ -6,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["src/Orneholm.BirdOrNot.Web/Orneholm.BirdOrNot.Web.csproj", "src/Orneholm.BirdOrNot.Web/"]
+COPY ["src/Orneholm.BirdOrNot.Core/Orneholm.BirdOrNot.Core.csproj", "src/Orneholm.BirdOrNot.Core/"]
 RUN dotnet restore "src/Orneholm.BirdOrNot.Web/Orneholm.BirdOrNot.Web.csproj"
 COPY . .
 WORKDIR "/src/src/Orneholm.BirdOrNot.Web"
