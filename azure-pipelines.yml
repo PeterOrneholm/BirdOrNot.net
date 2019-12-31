@@ -40,7 +40,7 @@ stages:
       displayName: Build and Push
       inputs:
         command: buildAndPush
-        buildContext: '/'
+        buildContext: ''
         repository: peterorneholm/orneholmbirdornotweb
         Dockerfile: src/Orneholm.BirdOrNot.Web/Dockerfile
         tags: |
