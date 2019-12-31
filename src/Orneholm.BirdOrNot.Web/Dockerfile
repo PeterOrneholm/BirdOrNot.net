@@ -7,11 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/Orneholm.BirdOrNot.Web/Orneholm.BirdOrNot.Web.csproj", "src/Orneholm.BirdOrNot.Web/"]
-COPY ["src/Orneholm.BirdOrNot.Core/Orneholm.BirdOrNot.Core.csproj", "src/Orneholm.BirdOrNot.Core/"]
-RUN dotnet restore "src/Orneholm.BirdOrNot.Web/Orneholm.BirdOrNot.Web.csproj"
-COPY . .
-WORKDIR "/src/src/Orneholm.BirdOrNot.Web"
+COPY ["src/Orneholm.BirdOrNot.Web/Orneholm.BirdOrNot.Web.csproj", "Orneholm.BirdOrNot.Web/"]
+COPY ["src/Orneholm.BirdOrNot.Core/Orneholm.BirdOrNot.Core.csproj", "Orneholm.BirdOrNot.Core/"]
+RUN dotnet restore "Orneholm.BirdOrNot.Web/Orneholm.BirdOrNot.Web.csproj"
+COPY /src .
+WORKDIR "/src/Orneholm.BirdOrNot.Web"
 RUN dotnet build "Orneholm.BirdOrNot.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
