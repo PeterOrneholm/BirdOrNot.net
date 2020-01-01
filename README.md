@@ -1,5 +1,8 @@
 # BirdOrNot.net - Is it a bird or not?
 
+[![Build Status](https://dev.azure.com/orneholm/BirdOrNot.net/_apis/build/status/BirdOrNot.net?branchName=master)](https://dev.azure.com/orneholm/BirdOrNot.net/_build/latest?definitionId=7&branchName=master)
+[![Twitter Follow](https://img.shields.io/badge/Twitter-@PeterOrneholm-blue.svg?logo=twitter)](https://twitter.com/PeterOrneholm)
+
 *NOTE: This is a repost of the [blog post found here](https://bit.ly/po-birdornot-blog).*
 
 As a technical person and developer, I'm a big fan of [XKCD](https://xkcd.com/) which makes entertaining comics about our industry. A couple of years ago I stumbled upon [this one](https://xkcd.com/1425/):
