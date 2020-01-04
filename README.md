@@ -1,6 +1,7 @@
 # BirdOrNot.net - Is it a bird or not?
 
 [![Build Status](https://dev.azure.com/orneholm/BirdOrNot.net/_apis/build/status/BirdOrNot.net?branchName=master)](https://dev.azure.com/orneholm/BirdOrNot.net/_build/latest?definitionId=7&branchName=master)
+[![Live demo](https://img.shields.io/static/v1?label=Demo&message=Try%20out%20the%20live%20demo&color=#17547a)](https://birdornot.net/)
 [![Twitter Follow](https://img.shields.io/badge/Twitter-@PeterOrneholm-blue.svg?logo=twitter)](https://twitter.com/PeterOrneholm)
 
 *NOTE: This is a repost of the [blog post found here](https://bit.ly/po-birdornot-blog).*
