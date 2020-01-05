@@ -1,4 +1,4 @@
-﻿@using Microsoft.Extensions.Options
+@using Microsoft.Extensions.Options
 @using Orneholm.BirdOrNot.Web.Models
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @inject IOptions<GoogleAnalyticsOptions> GoogleAnalyticsOptions
@@ -6,14 +6,32 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+
+    <!-- CREDITS -->
+    <!--
+
+    This site is created and maintained by Peter Örneholm.
+
+    https://twitter.com/PeterOrneholm
+    https://peter.orneholm.com/
+
+    Source available at GitHub:
+    https://github.com/PeterOrneholm/BirdOrNot.net
+
+    -->
+    <!-- Meta -->
+    <meta name="author" content="Peter Örneholm (@("@PeterOrneholm"))">
+    <meta name="description" content="Is it a bird or not? Find out using AI!">
 
     <!-- Info -->
     @RenderSection("HeadMeta", required: false)
 
-    <!-- Icons -->
+    <!-- Webapp -->
     <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/birdornot-180x180.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/birdornot-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/birdornot-16x16.png" />
