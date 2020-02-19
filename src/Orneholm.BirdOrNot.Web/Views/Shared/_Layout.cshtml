@@ -76,6 +76,56 @@
     <!-- Body -->
     @RenderBody()
 
+
+    <footer class="bon-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>About</h4>
+                    <p>
+                        The technical details about this site is <a href="https://bit.ly/po-birdornot-blog">described in this blogpost</a>.
+                    </p>
+                    <p>
+                        The <a href="https://github.com/PeterOrneholm/BirdOrNot.net">Sourcecode is available at GitHub</a> and <a href="https://hub.docker.com/r/peterorneholm/orneholmbirdornotweb">Docker image available at Dockerhub</a>.
+                    </p>
+                </div>
+
+                <div class="col-sm-4">
+                    <h4>Inspiration</h4>
+                    <p>
+                        This website was inspired by <a href="https://xkcd.com/1425/" target="_blank">this XKCD about tasks</a>, but proving it's not &quot;virtually impossible&quot; anymore by using <a href="https://bit.ly/azure-cog-computer-vision" target="_blank">Azure Cognitive Services</a> to detect birds.
+                    </p>
+
+                    <div class="bon-footer-xkcd-wrapper">
+                        <a href="https://xkcd.com/1425/" target="_blank">
+                            <img src="https://imgs.xkcd.com/comics/tasks.png" class="img-thumbnail bon-footer-xkcd" />
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-4">
+                    <h4>Author</h4>
+                    <p>
+                        Developed by <a href="https://twitter.com/PeterOrneholm" target="_blank">@@PeterOrneholm</a> at <a href="https://www.activesolution.se/">Active Solution</a> as a demo for the session <a href="http://bit.ly/peterorneholm-democratizing-ai">Democratizing AI with Azure Cognitive Services</a>.
+                    </p>
+                    <p>
+                        This site is part of a set of AI Experiments:
+
+                        <ul class="list-unstyled mt-1">
+                            <li><a href="https://birdornot.net/">BirdOrNot.net</a></li>
+                            <li><a href="https://cogbox.net/">CogBox.net</a></li>
+                            <li><a href="https://radiotext.net/">RadioText.net</a></li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <p class="bon-footer-sitename">
+                BirdOrNot.net
+            </p>
+        </div>
+    </footer>
+
     <!-- Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
