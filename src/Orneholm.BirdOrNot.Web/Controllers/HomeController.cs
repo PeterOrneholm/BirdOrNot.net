@@ -14,12 +14,12 @@ namespace Orneholm.BirdOrNot.Web.Controllers
     {
         private readonly Dictionary<string, string> _samples = new Dictionary<string, string>
         {
-            { "Hummingbird", "https://upload.wikimedia.org/wikipedia/commons/9/9b/Sparkling_Violet-ear.jpg" },
-            { "Penguin", "https://upload.wikimedia.org/wikipedia/commons/0/07/Emperor_Penguin_Manchot_empereur.jpg" },
-            { "Falcon", "https://upload.wikimedia.org/wikipedia/commons/9/9a/Falco_peregrinus_good_-_Christopher_Watson.jpg" },
-            { "Crow", "https://upload.wikimedia.org/wikipedia/commons/b/b8/Nebelkr%C3%A4he_Corvus_cornix.jpg" },
-            { "Alligator", "https://upload.wikimedia.org/wikipedia/commons/c/ca/Alligatoren_%28Alligator_mississippiensis%29_in_Florida.jpg" },
-            { "Multiple Owls", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Athene_cunicularia_20110524_02.jpg/2560px-Athene_cunicularia_20110524_02.jpg" }
+            { "Hummingbird", "https://pobirdornotprod.blob.core.windows.net/samples/Sparkling_Violet-ear.jpg" },
+            { "Penguin", "https://pobirdornotprod.blob.core.windows.net/samples/Emperor_Penguin_Manchot_empereur.jpg" },
+            { "Falcon", "https://pobirdornotprod.blob.core.windows.net/samples/Falco_peregrinus_good_-_Christopher_Watson.jpg" },
+            { "Crow", "https://pobirdornotprod.blob.core.windows.net/samples/Nebelkr%C3%A4he_Corvus_cornix.jpg" },
+            { "Alligator", "https://pobirdornotprod.blob.core.windows.net/samples/Alligatoren_(Alligator_mississippiensis)_in_Florida.jpg" },
+            { "Multiple Owls", "https://pobirdornotprod.blob.core.windows.net/samples/Athene_cunicularia_20110524_02.jpg" }
         };
 
         private readonly IBirdAnalyzer _birdAnalyzer;
