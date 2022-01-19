@@ -76,7 +76,7 @@ namespace Orneholm.BirdOrNot.Core.Services
                 IsBirdConfidence = isBird.Value,
 
                 Animals = animals,
-                AnimalGroups = animalGroups.Keys.ToList(),
+                AnimalGroups = animalGroups.Keys.Where(x => !string.IsNullOrWhiteSpace(x)).ToList(),
 
                 Metadata = birdAnalysisMetadata
             };
